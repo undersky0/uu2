@@ -1,0 +1,24 @@
+<%= form_for @profile do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :firstname %><br />
+    <%= f.text_field :firstname %>
+  </p>
+  <p>
+    <%= f.label :lastname %><br />
+    <%= f.text_field :lastname %>
+  </p>
+  <p>
+    <%= f.label :age %><br />
+    <%= f.date_select :age %>
+  </p>
+  <p>
+    <%= f.label :website %><br />
+    <%= f.text_field :website %>
+  </p>
+  <p>
+    <%= f.label :phoneNo %><br />
+    <%= f.text_field :phoneNo %>
+  </p>
+  <p><%= f.submit %></p>
+<% end %>
