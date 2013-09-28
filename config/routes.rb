@@ -1,8 +1,11 @@
 Uu2::Application.routes.draw do
+
+
   resources :profiles
 
   root :to => 'browse#home'
-  get "browse/profile"
+  #get "browse/home"
+  get "views/profile"
 
   #devise_for :users
 
