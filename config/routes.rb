@@ -1,11 +1,16 @@
 Uu2::Application.routes.draw do
 
+  devise_for :users
+  
+  get "navigation/home"
 
   resources :profiles
 
-  root :to => 'browse#home'
+  root :to => 'navigation#home'
+  get "navigation/feeds"
   #get "browse/home"
-  get "views/profile"
+  
+  #get "views/profile"
 
   #devise_for :users
 
