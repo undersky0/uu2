@@ -30,7 +30,7 @@ class ScribblesController < ApplicationController
   def create
     @scribble = Scribble.new(params[:scribble])
     @scribble.posted_by_uid=current_user.id
-    @scribble.posted_by=current_user.first_name+" "+current_user.last_name
+    #@scribble.posted_by=current_user.firstname+" "+current_user.lastname
     @scribble.promotes=0
     @scribble.demotes=0
     @scribble.save
@@ -43,6 +43,10 @@ class ScribblesController < ApplicationController
         format.json { render :json => @scribble.errors, :status => :unprocessable_entity }
       end
     end
+  end
+  
+  def username
+    
   end
 
   # PUT /scribbles/1
