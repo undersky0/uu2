@@ -11,6 +11,7 @@ gem 'devise'
 #gem "memcached", "~> 1.7.0"
 gem "rmagick", "~> 2.13.2"
 gem "nifty-generators", "~> 0.4.6"
+gem "strong_parameters", "~> 0.2.1"
 
 # Gems used only for assets and not required
 # in production environments by default.

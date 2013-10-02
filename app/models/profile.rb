@@ -1,3 +1,7 @@
 class Profile < ActiveRecord::Base
-  attr_accessible :firstname, :lastname, :age, :website, :phoneNo
+  include ActiveModel::ForbiddenAttributesProtection
+  
+  belongs_to :user
+  attr_accessible :firstname, :lastname, :age, :website, :phoneNo, :user_id
+
 end

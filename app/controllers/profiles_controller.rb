@@ -12,7 +12,7 @@ class ProfilesController < ApplicationController
   end
 
   def create
-    @profile = Profile.new(params[:profile])
+    @profile = Profile.new(profile_params)
     if @profile.save
       redirect_to @profile, :notice => "Successfully created profile."
     else
@@ -26,7 +26,7 @@ class ProfilesController < ApplicationController
 
   def update
     @profile = Profile.find(params[:id])
-    if @profile.update_attributes(params[:profile])
+    if @profile.update_attributes!(person_params)
       redirect_to @profile, :notice  => "Successfully updated profile."
     else
       render :action => 'edit'
@@ -37,5 +37,10 @@ class ProfilesController < ApplicationController
     @profile = Profile.find(params[:id])
     @profile.destroy
     redirect_to profiles_url, :notice => "Successfully destroyed profile."
+  end
+  
+  private
+  def profile_params
+    params.require(:profile).permit(:firstname, :lastname, :age, :website, :phoneNo)
   end
 end

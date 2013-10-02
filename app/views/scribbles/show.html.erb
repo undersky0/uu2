@@ -1,0 +1,20 @@
+<% title "Scribble" %>
+
+<p>
+  <strong>Post:</strong>
+  <%= @scribble.post %>
+</p>
+<p>
+  <strong>Posted By:</strong>
+  <%= @scribble.posted_by %>
+</p>
+<p>
+  <strong>Posted By Uid:</strong>
+  <%= @scribble.posted_by_uid %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_scribble_path(@scribble) %> |
+  <%= link_to "Destroy", @scribble, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", scribbles_path %>
+</p>

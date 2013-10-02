@@ -1,0 +1,16 @@
+<%= form_for @scribble do |f| %>
+  <%= f.error_messages %>
+  <p>
+    <%= f.label :post %><br />
+    <%= f.text_field :post %>
+  </p>
+  <p>
+    <%= f.label :posted_by %><br />
+    <%= f.text_field :posted_by %>
+  </p>
+  <p>
+    <%= f.label :posted_by_uid %><br />
+    <%= f.number_field :posted_by_uid %>
+  </p>
+  <p><%= f.submit %></p>
+<% end %>

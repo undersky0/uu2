@@ -1,5 +1,7 @@
 Uu2::Application.routes.draw do
 
+  resources :scribbles
+
   devise_for :users
   
   get "navigation/home"
@@ -8,6 +10,10 @@ Uu2::Application.routes.draw do
 
   root :to => 'navigation#home'
   get "navigation/feeds"
+  get  "refresh"  => "navigation#refreshscribbles", :as => "refresh"
+  get "promote"  => "navigation#votedup", :as => "promote"
+  get  "demote"  => "navigation#voteddown", :as => "demote"
+  
   #get "browse/home"
   
   #get "views/profile"

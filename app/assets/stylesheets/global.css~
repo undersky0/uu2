@@ -174,7 +174,7 @@ width:130px;
 height:30px;
 background-image:url(scribbles_like.png);
 background-repeat:no-repeat;
-margin-bottom:5px;
+margin-bottom:2px;
 -moz-border-radius: 6px;
 -webkit-border-radius: 6px;
 }

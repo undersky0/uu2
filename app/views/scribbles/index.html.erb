@@ -1,0 +1,21 @@
+<% title "Scribbles" %>
+
+<table>
+  <tr>
+    <th>Post</th>
+    <th>Posted By</th>
+    <th>Posted By Uid</th>
+  </tr>
+  <% for scribble in @scribbles %>
+    <tr>
+      <td><%= scribble.post %></td>
+      <td><%= scribble.posted_by %></td>
+      <td><%= scribble.posted_by_uid %></td>
+      <td><%= link_to "Show", scribble %></td>
+      <td><%= link_to "Edit", edit_scribble_path(scribble) %></td>
+      <td><%= link_to "Destroy", scribble, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Scribble", new_scribble_path %></p>
