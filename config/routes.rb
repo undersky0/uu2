@@ -1,24 +1,31 @@
 Uu2::Application.routes.draw do
 
+  resources :scribbles do
+    resources :comments
+  end
+
   resources :scribbles
 
   devise_for :users
   
   get "navigation/home"
-
+  
   resources :profiles
 
   root :to => 'navigation#home'
   get "navigation/feeds"
   get  "refresh"  => "navigation#refreshscribbles", :as => "refresh"
-  get "promote"  => "navigation#votedup", :as => "promote"
+  get  "promote"  => "navigation#votedup", :as => "promote"
   get  "demote"  => "navigation#voteddown", :as => "demote"
   
   #get "browse/home"
   
   #get "views/profile"
-
-  #devise_for :users
+  
+  
+  
+  #map.resources :scribbles, :has_many => :comments
+  devise_for :users
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

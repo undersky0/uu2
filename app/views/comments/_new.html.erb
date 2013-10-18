@@ -1,0 +1,9 @@
+<%= form_for(@comment) do |f| %>
+<div class="fields">
+    <%= f.label :content %><br />
+    <%= f.text_field :content %>
+  </div>
+<div class="actions" id="refreshcomments">
+    <%= f.submit("comment") %>
+  </div>
+<% end %>

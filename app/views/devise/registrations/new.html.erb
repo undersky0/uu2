@@ -3,11 +3,15 @@
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
   <% resource.profile || resource.build_profile %>
+  
   <%= f.fields_for :profile do |profile_form| %>
+  
   <h2><%= profile_form.label :firstname %></h2>
   <p><%= profile_form.text_field :firstname%></p>
-    <h2><%= profile_form.label :lastname %></h2>
+  
+  <h2><%= profile_form.label :lastname %></h2>
   <p><%= profile_form.text_field :lastname %></p>
+  
 	<% end %>
 
   <div><%= f.label :email %><br />

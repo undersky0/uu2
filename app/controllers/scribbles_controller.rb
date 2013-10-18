@@ -3,6 +3,8 @@ class ScribblesController < ApplicationController
   # GET /scribbles.json
   def index
     @scribbles = Scribble.find(:all, :order => 'scribbles.created_at DESC')
+    @scribble = scribble.new
+
       respond_to do |format|
       format.html # index.html.erb
       format.json { render :json => @scribbles }
@@ -13,7 +15,11 @@ class ScribblesController < ApplicationController
   # GET /scribbles/1.json
   def show
     @scribble = Scribble.find(params[:id])
-
+    @profile = @user.profile
+    @commentable = @scrible
+    @comments = @commentable.comments
+    @comment = Comment.new
+    
     respond_to do |format|
       format.html # show.html.erb
       format.json { render :json => @scribble }
@@ -30,7 +36,17 @@ class ScribblesController < ApplicationController
   def create
     @scribble = Scribble.new(params[:scribble])
     @scribble.posted_by_uid=current_user.id
-    #@scribble.posted_by=current_user.firstname+" "+current_user.lastname
+    t = @scribble.user
+    o = @user.profile
+    o = t.profile
+    @scribble.posted_by= o.firstname
+    
+    #t = @profile.user.firstname
+    #@scribble.posted_by = t
+    #current_user.profile 
+    #@profile = Profile.current_user.id
+    #@scribble.posted_by=@profile.first_name+" "+@profule.last_name
+    #@scribble.posted_by=current_user.first_name+" "+current_user.last_name
     @scribble.promotes=0
     @scribble.demotes=0
     @scribble.save
@@ -45,9 +61,6 @@ class ScribblesController < ApplicationController
     end
   end
   
-  def username
-    
-  end
 
   # PUT /scribbles/1
   # PUT /scribbles/1.json
