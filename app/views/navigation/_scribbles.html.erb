@@ -18,7 +18,8 @@
           <p><%= scribble.post %></p>
           <small><%= scribble.posted_by %></small>
           </blockquote>
-          <div class="scribbletime">created at  <%= scribble.created_at %></div></div> 
+          <div class="scribbletime">created at  <%= scribble.created_at %></div></div>
+          <%= render :partial=>"comments/new",:locals=>{:scribble=>scribble} %> 
      </div>
   <% end %>
 <% end %>

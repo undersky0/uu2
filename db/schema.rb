@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131015213319) do
+ActiveRecord::Schema.define(:version => 20131019175540) do
 
   create_table "comments", :force => true do |t|
     t.string   "content"
@@ -19,9 +19,18 @@ ActiveRecord::Schema.define(:version => 20131015213319) do
     t.string   "commentable_type"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
+    t.integer  "user_id"
   end
 
   add_index "comments", ["commentable_id", "commentable_type"], :name => "index_comments_on_commentable_id_and_commentable_type"
+
+  create_table "friendships", :force => true do |t|
+    t.string   "actor_id"
+    t.string   "friendActor_id"
+    t.string   "status"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
 
   create_table "profiles", :force => true do |t|
     t.string   "firstname"
@@ -43,6 +52,7 @@ ActiveRecord::Schema.define(:version => 20131015213319) do
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
     t.integer  "user_id"
+    t.integer  "scribble_id"
   end
 
   create_table "users", :force => true do |t|
@@ -58,9 +68,13 @@ ActiveRecord::Schema.define(:version => 20131015213319) do
     t.string   "last_sign_in_ip"
     t.datetime "created_at",                             :null => false
     t.datetime "updated_at",                             :null => false
+    t.string   "actor_id"
+    t.string   "profile_id"
   end
 
+  add_index "users", ["actor_id"], :name => "index_users_on_actor_id", :unique => true
   add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["profile_id"], :name => "index_users_on_profile_id", :unique => true
   add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
 
 end

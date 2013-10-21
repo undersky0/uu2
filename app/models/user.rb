@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+  
+  include Scrubber
+  
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
@@ -12,10 +15,44 @@ class User < ActiveRecord::Base
   has_one :profile, dependent: :destroy
   accepts_nested_attributes_for :profile
   
-  has_many :scribbles
-  
+  has_many :scribbles # @user.scribbles
   has_many :comments, :as => :commentable
   
+  # @user = User.find(params[:id]) # finds user
+  # @commentable = @user # find the right link with commentable
+  # @comments = @commentable.comments # finds the associated comments
+  # @comment = Comment.new 
+  
+  before_save :create_actor_id
   
   
+  has_many :friendships, :primary_key =>"actor_id", :foreign_key => 'actord_id'
+  has_many :friends,
+           :through => :friendships,
+           :condition => "status  'accepted'",
+           :order => :created_at
+  
+  
+  has_many :requested_friends,
+           :through => :friendships,
+           :source => :friend,
+           :conditions => "status = 'requested'",
+           :order => :created_at
+           
+  has_many :pending_friends,
+           :through => :friendships,
+           :source => :friend,
+           :conditions => "status = 'pending'",
+           :order => :created_at
+           
+  def create_actor_id
+    self.actor_id = gen_actor_id
+  end       
+  
+  def create_profile_id
+    self.profile_id = gen_profile_id
+  end
+  
+  
+           
 end

@@ -7,13 +7,20 @@ class CommentsController < ApplicationController
   
   def new
     @comment = @commentable.comments.new
+    
+    
+    
   end
   
-  
-  
-  
     def create
-    @comment = @commentable.comments.new(params[:comment])
+    @commentable = load_commentable
+    #@comment = @scribble.comments.create(params[:comment])
+    @comment = @commentable.comments.create!(params[:comment])
+    #@comment = @commentable.comments.new(params[:comment])
+    #@comment.content = params[:content]
+    
+    # @comment.user_id = current_user.id
+    
     if @comment.save
       format.html { redirect_to root_path }
       format.json { render :json => @comment, :status => :created, :location => @comment }
@@ -28,8 +35,12 @@ class CommentsController < ApplicationController
   private
 
   def load_commentable
-    klass = [Scribble].detect { |c| params["#{c.name.underscore}_id"] }
-    @commentable = klass.find(params["#{klass.name.underscore}_id"])
+    if params[:scribble_id]
+      @commentable = Scribble.find(params[:scribble_id])
+    end
+    
+    # klass = [Scribble].detect { |c| params["#{c.name.underscore}_id"] }
+    # @commentable = klass.find(params["#{klass.name.underscore}_id"])
   end
   
 end

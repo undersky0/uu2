@@ -15,6 +15,7 @@ class ScribblesController < ApplicationController
   # GET /scribbles/1.json
   def show
     @scribble = Scribble.find(params[:id])
+    @user = User.find_by_id(current_user.id)
     @profile = @user.profile
     @commentable = @scrible
     @comments = @commentable.comments
@@ -36,10 +37,11 @@ class ScribblesController < ApplicationController
   def create
     @scribble = Scribble.new(params[:scribble])
     @scribble.posted_by_uid=current_user.id
-    t = @scribble.user
-    o = @user.profile
-    o = t.profile
-    @scribble.posted_by= o.firstname
+    @user = User.find_by_id(current_user.id)
+    @profile = @user.profile
+    
+
+    @scribble.posted_by= @profile.firstname+ " "+@profile.lastname
     
     #t = @profile.user.firstname
     #@scribble.posted_by = t

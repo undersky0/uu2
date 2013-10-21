@@ -1,9 +1,9 @@
-<%= form_for(@comment) do |f| %>
-<div class="fields">
-    <%= f.label :content %><br />
-    <%= f.text_field :content %>
-  </div>
-<div class="actions" id="refreshcomments">
-    <%= f.submit("comment") %>
-  </div>
-<% end %>
+ <div id="Comment-<%= @scribble.scribble_id %>" class="comment">
+
+        <%= form_for([scribble, scribble.comments.build]) do |f| %>
+          <%= f.text_field :content,:placeholder=>"What do you think ?",:maxlength=>"160" %>
+
+          <br clear="all">
+          <%= f.submit "Add Comment", :class=>"btn btn-inverse"%>
+        <% end %>
+      </div>

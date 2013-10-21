@@ -22,7 +22,13 @@ Uu2::Application.routes.draw do
   
   #get "views/profile"
   
-  
+   resources :friendships do
+    collection do
+      get 'request',:as=>"addfriend"
+      get 'accept',:as=>"accept_fr"
+      get 'reject',:as=>"reject_fr"
+    end
+  end
   
   #map.resources :scribbles, :has_many => :comments
   devise_for :users
