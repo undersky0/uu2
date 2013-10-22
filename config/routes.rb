@@ -1,5 +1,8 @@
 Uu2::Application.routes.draw do
 
+  resources :locations
+
+
   resources :scribbles do
     resources :comments
   end

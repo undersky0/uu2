@@ -29,7 +29,7 @@ class User < ActiveRecord::Base
   has_many :friendships, :primary_key =>"actor_id", :foreign_key => 'actord_id'
   has_many :friends,
            :through => :friendships,
-           :condition => "status  'accepted'",
+           :conditions => "status  'accepted'",
            :order => :created_at
   
   
@@ -44,6 +44,23 @@ class User < ActiveRecord::Base
            :source => :friend,
            :conditions => "status = 'pending'",
            :order => :created_at
+           
+  has_many :sent_messages,
+           :class_name => 'Message',
+           :primary_key => 'actor_id',
+           :foreign_key => 'recipient_id',
+           :order => "messages.created_at DESC"           
+                   
+  has_many :received_messages,
+           :class_name => 'Message',
+           :primary_key => 'actor_id',
+           :foreign_key => 'recipient_id',
+           :order => "messages.created_at DESC"        
+           
+  def unread_messages?
+    unread_messages_count > 0 ? true : false
+  end
+     
            
   def create_actor_id
     self.actor_id = gen_actor_id
