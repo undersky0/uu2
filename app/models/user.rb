@@ -63,13 +63,20 @@ class User < ActiveRecord::Base
      
            
   def create_actor_id
-    self.actor_id = gen_actor_id
-  end       
+    begin
+      self.actor_id = SecureRandom.base64(8)
+    end while self.class.exists?(:actor_id => actor_id)
+    end       
   
   def create_profile_id
-    self.profile_id = gen_profile_id
+    begin
+      self.profile_id = SecureRandom.base64(8)
+    end while self.class.exists?(:profile_id => profile_id)
   end
   
-  
+  def full_name
+    @profile = self.profile
+    return "#{@profile.firstname} #{@profile.lastname}"
+  end
            
 end

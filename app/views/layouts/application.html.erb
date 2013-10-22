@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= "Socialbeam" %></title>
+    <title><%= yield(:title) || "undersky" %></title>
    <!-- Javascripts
     ================================================== -->
    <%= javascript_include_tag :all %>
@@ -57,7 +57,7 @@
               <ul class="nav nav-list">
                 <li class="nav-header">Links</li>
                 <li><%= link_to "Home", ""  %></li>
-                <li><%= link_to "Profile", ""  %></li>
+                <li><%= link_to "Profile", ""%></li>
                 <li><%= link_to "Messaging", ""  %></li>
               </ul>
             </div><!--/.well -->
