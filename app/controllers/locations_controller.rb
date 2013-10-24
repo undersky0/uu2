@@ -26,11 +26,6 @@ class LocationsController < ApplicationController
   # GET /locations/new.json
   def new
     @location = Location.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @location }
-    end
   end
 
   # GET /locations/1/edit
@@ -81,6 +76,16 @@ class LocationsController < ApplicationController
       format.json { head :no_content }
     end
   end
+  
+  def geocode_by
+    geocode_by :ip_address,
+      :latitude => :latitude, :longitude => :longitude
+  end
+  
+  def reverse_geocode_by
+    reverse_geocode_by :latitude, :longitude,
+      :address => :location
+  end
 
   private
 
@@ -90,4 +95,8 @@ class LocationsController < ApplicationController
     def location_params
       params.require(:location).permit(:address, :gmaps, :latitude, :longitude, :postcode)
     end
+    
+    
+    
+    
 end

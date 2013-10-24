@@ -9,24 +9,31 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :profile_attributes
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :profile_attributes, :location_attributes
   # attr_accessible :title, :body
   
-  has_one :profile, dependent: :destroy
-  accepts_nested_attributes_for :profile
+  has_one :profile, 
+          # :primary_key => "actor_id",
+          # :foreign_key => "profile_id",
+          dependent: :destroy
+          # :primary_key => "profile_id",
+          # :foreign_key => "profile_id"
+          accepts_nested_attributes_for :profile
   
   has_many :scribbles # @user.scribbles
   has_many :comments, :as => :commentable
+  
+  has_one :location, dependent: :destroy
+  accepts_nested_attributes_for :location
   
   # @user = User.find(params[:id]) # finds user
   # @commentable = @user # find the right link with commentable
   # @comments = @commentable.comments # finds the associated comments
   # @comment = Comment.new 
   
-  before_save :create_actor_id
+  before_save :create_actor_id  
   
-  
-  has_many :friendships, :primary_key =>"actor_id", :foreign_key => 'actord_id'
+  has_many :friendships, :primary_key =>"actor_id", :foreign_key => 'actor_id'
   has_many :friends,
            :through => :friendships,
            :conditions => "status  'accepted'",
@@ -44,6 +51,11 @@ class User < ActiveRecord::Base
            :source => :friend,
            :conditions => "status = 'pending'",
            :order => :created_at
+           
+  # has_many :neighbours,
+           # :through => :friendships,
+           # :source => :friend,
+           # :conditions => :location
            
   has_many :sent_messages,
            :class_name => 'Message',
@@ -68,11 +80,7 @@ class User < ActiveRecord::Base
     end while self.class.exists?(:actor_id => actor_id)
     end       
   
-  def create_profile_id
-    begin
-      self.profile_id = SecureRandom.base64(8)
-    end while self.class.exists?(:profile_id => profile_id)
-  end
+
   
   def full_name
     @profile = self.profile

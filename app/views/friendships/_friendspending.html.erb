@@ -1,0 +1,8 @@
+<h2> About to become friends :) </h2>
+<ol>
+	<% @user.pending_friends.each do |friend|%>
+	<li>
+		<%=link_to "#{friend.fullname}", user_path(friend.actor_id)%>
+	</li>
+	<%end%>
+</ol>

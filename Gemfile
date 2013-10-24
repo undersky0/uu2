@@ -15,6 +15,7 @@ gem "strong_parameters", "~> 0.2.1"
 gem "scrubber", "~> 0.1.0"
 gem "geokit"
 gem "geocoder"
+gem "best_in_place"
 
 # Gems used only for assets and not required
 # in production environments by default.
