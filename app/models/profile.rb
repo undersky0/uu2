@@ -1,7 +1,8 @@
 class Profile < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
   
-  belongs_to :user
+  belongs_to :user,
+  :foreign_key => "actor_id"
   
   attr_accessible :firstname, :lastname, :age, :website, :phoneNo, :profile_id
   
