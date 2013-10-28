@@ -3,7 +3,7 @@
 <%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
   <%= devise_error_messages! %>
   <% resource.profile || resource.build_profile %>
-  <% resource.location || resource.build_location %>
+  <% resource.locations || resource.build_locations %>
   
   <%= f.fields_for :profile do |profile_form| %>
   
@@ -14,7 +14,7 @@
   <p><%= profile_form.text_field :lastname %></p>
   <% end %>
   
-  <%= f.fields_for :location do |location_form| %>
+  <%= f.fields_for :locations do |location_form| %>
   
   <h2><%= location_form.label :address %></h2>
   <p><%= location_form.text_field :address %></p>

@@ -37,7 +37,7 @@
               
               <% if  user_signed_in? %>
               Singed in as <%= current_user.email %>. Not you ? <%= button_to('Logout', destroy_user_session_path, :method => :delete) %>
-              <%= current_user.id%>
+              <%= current_user.id%><%= current_user.full_name%><%= current_user.profile.profile_id%>
               <% else %>
               <li><%= link_to('Register', new_user_registration_path)  %></li>
               <li><%= link_to('Sign In', new_user_session_path )%></li>
@@ -57,9 +57,9 @@
               <ul class="nav nav-list">
                 <li class="nav-header">Links</li>
                 <li><%= link_to "Home", ""  %></li>
-                <li><%= link_to "Profile", ""%></li>
+                <li><%= link_to "Profile", "user_profile_path(current_user.profile)"%></li>
                 <li><%= link_to "Messaging", ""  %></li>
-                <li><%= link_to "Compose New", new_user_message_path(current_user)%></li>
+                <li><%= link_to "Compose New", "new_user_message_path(current_user)"%></li>
               </ul>
             </div><!--/.well -->
           </div><!--/span-->

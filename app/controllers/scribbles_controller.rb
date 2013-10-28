@@ -15,7 +15,7 @@ class ScribblesController < ApplicationController
   # GET /scribbles/1.json
   def show
     @scribble = Scribble.find(params[:id])
-    @user = User.find_by_id(current_user.id)
+    @user = User.find_by_actor_id(current_user.actor_id)
     @profile = @user.profile
     @commentable = @scrible
     @comments = @commentable.comments
@@ -36,12 +36,12 @@ class ScribblesController < ApplicationController
   # POST /scribbles.json
   def create
     @scribble = Scribble.new(params[:scribble])
-    @scribble.posted_by_uid=current_user.id
-    @user = User.find_by_id(current_user.id)
+    @scribble.posted_by_uid=current_user.actor_id
+    @user = User.find_by_actor_id(current_user.actor_id)
     @profile = @user.profile
     
 
-    @scribble.posted_by= @profile.firstname+ " "+@profile.lastname
+    @scribble.posted_by= @user.full_name
     
     #t = @profile.user.firstname
     #@scribble.posted_by = t
@@ -49,7 +49,7 @@ class ScribblesController < ApplicationController
     #@profile = Profile.current_user.id
     #@scribble.posted_by=@profile.first_name+" "+@profule.last_name
     #@scribble.posted_by=current_user.first_name+" "+current_user.last_name
-    @scribble.promotes=0
+    @scribble.promotes=1
     @scribble.demotes=0
     @scribble.save
     respond_to do |format|

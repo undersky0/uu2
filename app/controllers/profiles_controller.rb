@@ -1,11 +1,12 @@
 class ProfilesController < ApplicationController
-  # def index
-    # @profiles = Profile.all
-  # end
+  def index
+    @profiles = Profile.all
+    @profile = profile.find_by_actor_id(current_user.actor_id)
+  end
 
   def show
     #@profile = Profile.find(params[:id])
-    @user = User.find_by_id(current_user.id)
+    @user = User.find_by_actor_id(current_user)
     #@user = current_user
     @profile = @user.profile
   end

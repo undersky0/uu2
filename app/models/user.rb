@@ -9,11 +9,12 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :profile_attributes, :location_attributes
+  attr_accessible :email, :password, :password_confirmation, :remember_me, :profile_attributes, :locations_attributes
   # attr_accessible :title, :body
   
-  has_one :profile, 
-          :primary_key => "actor_id",
+  has_one :profile,
+          # :primary_key => "actor_id",
+          
           dependent: :destroy
           # :primary_key => "profile_id",
           # :foreign_key => "profile_id"
@@ -22,8 +23,14 @@ class User < ActiveRecord::Base
   has_many :scribbles # @user.scribbles
   has_many :comments, :as => :commentable
   
-  has_one :location, dependent: :destroy
-  accepts_nested_attributes_for :location
+  
+  #user.places , location.places, user.locations
+  has_many :places, :as => :locationable, :primary_key => "actor_id"
+  has_many :locations, :through => :places, :primary_key => "actor_id"
+  
+  
+  
+  accepts_nested_attributes_for :locations
   
   # @user = User.find(params[:id]) # finds user
   # @commentable = @user # find the right link with commentable
@@ -59,13 +66,13 @@ class User < ActiveRecord::Base
   has_many :sent_messages,
            :class_name => 'Message',
            :primary_key => 'actor_id',
-           :foreign_key => 'recipient_id',
+           :foreign_key => 'recepient_id',
            :order => "messages.created_at DESC"           
                    
   has_many :received_messages,
            :class_name => 'Message',
            :primary_key => 'actor_id',
-           :foreign_key => 'recipient_id',
+           :foreign_key => 'recepient_id',
            :order => "messages.created_at DESC"        
            
   def unread_messages?

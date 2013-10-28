@@ -22,18 +22,18 @@
      var id = $(this).attr("id");
      var name = $(this).attr("name");
     var parent = $(this)
-          if (name=='up')
+          if (name=='promote')
          {
               
 
-              $.get('/votedup', {id: id},
+              $.get('/promote', {id: id},
                    function(data,status){
                    parent.html(data);
                                           });
          }
          else
         {
-             $.get('/voteddown', {id: id},
+             $.get('/demote', {id: id},
                    function(data,status){
                    parent.html(data);
                                           });

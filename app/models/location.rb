@@ -2,8 +2,8 @@ class Location < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
   acts_as_gmappable
   has_many :places, :dependednt => :destroy
-  has_many :users, :through => :places, :source => :locationable, :source_type => "User"
-  attr_accessible :address, :gmaps, :latitude, :longitude, :postcode, :user_id
+  has_many :users, :through => :places, :source => :locationable, :source_type => "User", :foreign_key => "actor_id"
+  attr_accessible :address, :gmaps, :latitude, :longitude, :postcode, :user_id, :actor_id
   
   geocoded_by :address
   #before_save :geolocate
@@ -12,7 +12,7 @@ class Location < ActiveRecord::Base
   
   
   def to_s
-    "#{address}" + "UK"
+    "#{address}" + ", UK"
   end
   
   def gmaps4rails_address
