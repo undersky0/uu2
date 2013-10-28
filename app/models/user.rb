@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   # attr_accessible :title, :body
   
   has_one :profile,
-          # :primary_key => "actor_id",
+          :primary_key => "actor_id",
           
           dependent: :destroy
           # :primary_key => "profile_id",
