@@ -15,4 +15,7 @@
 //= require jquery.purr
 //= require best_in_place
 //= require twitter/bootstrap
+//= require underscore
+//= require gmaps/google
 //= require_tree .
+

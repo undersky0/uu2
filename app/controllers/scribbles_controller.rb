@@ -31,14 +31,22 @@ class ScribblesController < ApplicationController
   def edit
     @scribble = Scribble.find(params[:id])
   end
-
+def new
+  @user = current_user
+  @scribble = @user.scribble.new
+end
   # POST /scribbles
   # POST /scribbles.json
   def create
-    @scribble = Scribble.new(params[:scribble])
-    @scribble.posted_by_uid=current_user.actor_id
-    @user = User.find_by_actor_id(current_user.actor_id)
-    @profile = @user.profile
+    @user = current_user
+    @scribble = @user.scribbles.new(params[:scribble])
+    
+    @scribble.actor_id = @user.actor_id
+    
+
+    #@scribble.posted_by_uid=current_user.actor_id
+    #@user = User.find_by_actor_id(current_user.actor_id)
+    #@profile = @user.profile
     
 
     @scribble.posted_by= @user.full_name
@@ -49,11 +57,13 @@ class ScribblesController < ApplicationController
     #@profile = Profile.current_user.id
     #@scribble.posted_by=@profile.first_name+" "+@profule.last_name
     #@scribble.posted_by=current_user.first_name+" "+current_user.last_name
-    @scribble.promotes=1
-    @scribble.demotes=0
-    @scribble.save
+    #@user.scribbles.promotes=0
+    #@user.scribbles.demotes=0
+   # @scribble.save
+    #@user = current_user
     respond_to do |format|
       if @scribble.save
+        #@user.scribbles = @scribble
         format.html { redirect_to root_path }
         format.json { render :json => @scribble, :status => :created, :location => @scribble }
       else

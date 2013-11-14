@@ -1,10 +1,10 @@
 Uu2::Application.routes.draw do
 
   resources :locations
-  devise_for :users
+  devise_for :users, path_names: {sign_in: "login", sign_out: "logout"}
   
   resources :users do
-  resources :profiles, :controller => "profiles"
+  resource :profile, :controller => "profiles"
   end  
 
   resources :scribbles do
@@ -12,6 +12,14 @@ Uu2::Application.routes.draw do
   end
 
   get "navigation/home"
+  
+  authenticated :user do
+  root to: "navigation#home", as: :authenticated_root
+  end
+  
+  unauthenticated do
+  root to: "landing_page#index"
+end
   
   root :to => 'navigation#home'
   get "navigation/feeds"

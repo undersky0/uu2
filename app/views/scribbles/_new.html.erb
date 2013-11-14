@@ -1,9 +1,12 @@
 <%= form_for(@scribble) do |f| %>
-<div class="fields">
-    <%= f.label :post %><br />
-    <%= f.text_field :post %>
-  </div>
-<div class="actions" id="refreshscribbles">
-    <%= f.submit("Post") %>
-  </div>
+<div class="">
+        <div class="field">
+                <%= f.text_area :post,:rows=>3,:placeholder=>"What's on your mind,#{current_user.full_name}?",
+                :class=>"sribble-status-text"
+                %>
+        </div>
+        <div class="sribble-status-actions" id="refreshscribbles">
+                <%= f.submit "Share",:class=>"btn btn-info" %>
+        </div>
+</div>
 <% end %>

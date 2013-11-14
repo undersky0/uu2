@@ -6,7 +6,7 @@ gem 'rails', '3.2.13'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'sqlite3'
-gem 'gmaps4rails'
+gem "gmaps4rails", "~> 2.0.5"
 gem 'devise'
 #gem "memcached", "~> 1.7.0"
 gem "rmagick", "~> 2.13.2"
@@ -16,7 +16,7 @@ gem "scrubber", "~> 0.1.0"
 gem "geokit"
 gem "geocoder"
 gem "best_in_place"
-
+gem "make_resourceful"
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do

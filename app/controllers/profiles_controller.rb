@@ -1,4 +1,7 @@
 class ProfilesController < ApplicationController
+  
+  
+  before_filter :load_user
   def index
     @profiles = Profile.all
     @profile = profile.find_by_actor_id(current_user.actor_id)
@@ -12,12 +15,21 @@ class ProfilesController < ApplicationController
   end
 
   def new
-    @profile = Profile.new
+    @profile = @user.profile.new
   end
 
   def create
-    @profile = Profile.new(profile_params)
-    if @profile.save
+   #@profile = Profile.new(profile_params)
+   
+    @user.profile.new(profile_params)
+   
+    
+    #@profile = @user.profile
+    @user.profile.actor_id = current_user.actor_id
+    
+    if @user.profile.save
+      
+      #@user.profile = @profile
       redirect_to @profile, :notice => "Successfully created profile."
     else
       render :action => 'new'
@@ -46,5 +58,9 @@ class ProfilesController < ApplicationController
   private
   def profile_params
     params.require(:profile).permit(:firstname, :lastname, :age, :website, :phoneNo)
+  end
+  
+  def load_user
+    @user = current_user
   end
 end

@@ -3,6 +3,7 @@ class NavigationController < ApplicationController
   
   
   def home
+
   end
 
   def feeds
@@ -23,6 +24,8 @@ class NavigationController < ApplicationController
   end
  
   def refreshscribbles
+  @scribble = Scribble.find(params[:id])
+  @user = User.find_by_actor_id(scribble.actor_id)
   render :partial => 'scribbles.html.erb', :locals => { :scribbles_streams => @scribbles_streams }
   end
   

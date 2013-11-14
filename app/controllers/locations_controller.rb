@@ -3,7 +3,11 @@ class LocationsController < ApplicationController
   # GET /locations.json
   def index
     @locations = Location.all
-    @json = location.all.to_gmaps4rails
+    # @json = location.all.to_gmaps4rails
+@hash = Gmaps4rails.build_markers(@locations) do |location, marker|
+  marker.lat location.latitude
+  marker.lng location.longitude
+end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -37,10 +41,17 @@ class LocationsController < ApplicationController
   # POST /locations.json
   def create
     @location = Location.new(location_params)
-
+    @user = current_user
+    #@location.places = @user
+    #@user.locations << @location
+       #@user.save 
     respond_to do |format|
       if @location.save
-        format.html { redirect_to @location, notice: 'Location was successfully created.' }
+        # @location.places = @place
+        # @location.user = @user
+        # @location.save
+        
+        format.html { redirect_to root_path, notice: 'Location was successfully created.' }
         format.json { render json: @location, status: :created, location: @location }
       else
         format.html { render action: "new" }

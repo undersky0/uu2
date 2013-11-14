@@ -1,0 +1,24 @@
+<div id="Comments-<%=scribble.id%>"> 
+        <br clear="all">
+        <br clear="all"/>
+        <% scribble.comments.each do |comment| %>
+        <div class="commentbox" id="record-17626" align="left">
+                <a href="#" style="float:left"><img src="assets/default_avatar.png" style="float:left; padding-right:9px;" width="40" height="40" border="0" alt=""></a>
+
+                <div class="commentorname" style="float:left">
+                        <b>
+                                <a href="http://shop.99points.info/wall/Demo/profile.php?id=22554888"><%= comment.id %></a>
+                        </b>
+                        <div class="comment-body-text">
+            <%= comment.content%>
+            </div>
+                        <div style=" padding-top:3px;">
+                        </div>
+
+                </div>
+                <br clear="all">
+                <br clear="all"/>
+        </div>
+        <% end %>
+</div>
+</br>
