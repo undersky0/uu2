@@ -1,0 +1,19 @@
+<h2>Network Users</h2>
+<div>
+	<ul>
+		<% all_connections.each do |actor|%>
+		<% unless actor == current_user%>
+		<li>
+			
+			<%= link_to "#{actor.full_name}", user_path(actor.actor_id)%>
+			<% if Friendship.are_friends(current_user.actor_id,actor.actor_id)%>
+			<label class="label">friend</label>
+			<%else%>
+			<%= link_to "Add Friend", addfriend_friendships_path(:actor_id => actor.actor_id)%>
+			<%end%>
+			<%end%>
+		</li>
+		<%end%>
+	</ul>
+	
+</div>

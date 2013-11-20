@@ -9,7 +9,10 @@
                 <li><%= link_to "Profile", "user_profile_path(current_user.profile)"%></li>
                 <li><%= link_to "Messaging", ""  %></li>
                 <li><%= link_to "Compose New", "new_user_message_path(current_user)"%></li>
+                <li><a href="<%= showusers_path(current_user.actor_id)%>"><i class="icon-book"></i>My users</a></li>
+
               </ul>
+              
             </div><!--/.well -->
           </div><!--/span-->
           <div class="span9">

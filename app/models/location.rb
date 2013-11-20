@@ -1,5 +1,5 @@
 class Location < ActiveRecord::Base
-  include ActiveModel::ForbiddenAttributesProtection
+  
   
   
   has_many :users, :through => :places, :source => :locationable, :source_type => "User", :foreign_key => 'actor_id'
@@ -7,7 +7,7 @@ class Location < ActiveRecord::Base
   #has_many :locationables, :through => :places
   
   
-  attr_accessible :address, :gmaps, :latitude, :longitude, :postcode, :user_id, :actor_id,
+  attr_accessible :address, :latitude, :longitude, :postcode, :user_id, :actor_id,
     :country,  
     :country_code,  
     :postal_code,  
@@ -17,8 +17,9 @@ class Location < ActiveRecord::Base
     :sublocality,  
     :street_address
       
-  #geocoded_by :address
+  geocoded_by :address
   #before_save :geolocate
+  
   after_validation :geocode
   #before_save :geolocate
   
@@ -42,8 +43,9 @@ class Location < ActiveRecord::Base
       prof.country = result.country
       prof.postal_code = result.postal_code
       prof.city = result.city
-      prof.political = result.political
-      # prof.sublocality = result.sublocality
+      #prof.political = result.political
+      prof.locality = result.locality
+      prof.sublocality = result.sublocality
       prof.street_address = result.street_address
     end
     result.coordinates

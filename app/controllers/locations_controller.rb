@@ -1,14 +1,13 @@
 class LocationsController < ApplicationController
+  layout false
   # GET /locations
   # GET /locations.json
   def index
-    @locations = Location.all
-    # @json = location.all.to_gmaps4rails
-@hash = Gmaps4rails.build_markers(@locations) do |location, marker|
+  @locations = Location.all
+  @hash = Gmaps4rails.build_markers(@locations) do |location, marker|
   marker.lat location.latitude
   marker.lng location.longitude
-end
-
+  end
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @locations }
@@ -41,7 +40,7 @@ end
   # POST /locations.json
   def create
     @location = Location.new(location_params)
-    @user = current_user
+    #@user = current_user
     #@location.places = @user
     #@user.locations << @location
        #@user.save 
@@ -51,7 +50,7 @@ end
         # @location.user = @user
         # @location.save
         
-        format.html { redirect_to root_path, notice: 'Location was successfully created.' }
+        format.html { redirect_to @location, notice: 'Location was successfully created.' }
         format.json { render json: @location, status: :created, location: @location }
       else
         format.html { render action: "new" }
@@ -88,15 +87,15 @@ end
     end
   end
   
-  def geocode_by
-    geocode_by :ip_address,
-      :latitude => :latitude, :longitude => :longitude
-  end
-  
-  def reverse_geocode_by
-    reverse_geocode_by :latitude, :longitude,
-      :address => :location
-  end
+  # def geocode_by
+    # geocode_by :ip_address,
+      # :latitude => :latitude, :longitude => :longitude
+  # end
+#   
+  # def reverse_geocode_by
+    # reverse_geocode_by :latitude, :longitude,
+      # :address => :location
+  # end
 
   private
 

@@ -13,6 +13,7 @@
               <li><%= link_to "My Account", ""  %></li>
               <li><%= link_to "Settings", ""  %></li>
               
+              
               <% if  user_signed_in? %>
               Singed in as <%= current_user.email %>. Not you ? <%= button_to('Logout', destroy_user_session_path, :method => :delete) %>
               <%= current_user.id%><%= current_user.full_name%> <%= current_user.profile.firstname%>

@@ -2,7 +2,7 @@
 <ol>
 	<% @user.pending_friends.each do |friend|%>
 	<li>
-		<%=link_to "#{friend.fullname}", user_path(friend.actor_id)%>
+		<%=link_to "#{friend.full_name}", user_path(friend.actor_id)%>
 	</li>
 	<%end%>
 </ol>

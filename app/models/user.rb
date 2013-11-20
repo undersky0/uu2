@@ -14,8 +14,6 @@ class User < ActiveRecord::Base
   
   has_one :profile,
           :primary_key => 'actor_id',
-          
-          :autosave => true,
           dependent: :destroy
           # :primary_key => "profile_id",
           # :foreign_key => "profile_id"
@@ -43,21 +41,23 @@ class User < ActiveRecord::Base
   before_save :create_actor_id  
   self.primary_key = 'actor_id'
   
-  has_many :friendships, :primary_key =>'actor_id', :foreign_key => 'actor_id'
+  
+  has_many :friendship, :primary_key =>'actor_id', :foreign_key => 'actor_id'
+  
   has_many :friends,
-           :through => :friendships,
-           :conditions => "status  'accepted'",
+           :through => :friendship,
+           :conditions => "status = 'accepted'",
            :order => :created_at
   
   
   has_many :requested_friends,
-           :through => :friendships,
+           :through => :friendship,
            :source => :friend,
            :conditions => "status = 'requested'",
            :order => :created_at
            
   has_many :pending_friends,
-           :through => :friendships,
+           :through => :friendship,
            :source => :friend,
            :conditions => "status = 'pending'",
            :order => :created_at
@@ -100,9 +100,6 @@ class User < ActiveRecord::Base
   end
   
   def create_profile
-    self.build_profile if self.profile.nil?
-  end
-           
-           
-           
+    self.build_profile() if self.profile.nil?
+  end          
 end

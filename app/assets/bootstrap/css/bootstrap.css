@@ -8,9 +8,16 @@
  * Designed and built with all the love in the world by @mdo and @fat.
  */
 
+#map img { 
+  max-width: none;
+}
+#map label { 
+  width: auto; display:inline; 
+} 
 .clearfix {
   *zoom: 1;
 }
+
 
 .clearfix:before,
 .clearfix:after {
@@ -106,11 +113,12 @@ img {
   border: 0;
   -ms-interpolation-mode: bicubic;
 }
-
+.map_container img{max-width: none;}
 #map_canvas img,
 .google-maps img {
   max-width: none;
 }
+.map_container img{max-width: none;}
 
 button,
 input,

@@ -11,7 +11,12 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131113192812) do
+ActiveRecord::Schema.define(:version => 20131120190841) do
+
+  create_table "chats", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "comments", :force => true do |t|
     t.string   "content"
@@ -24,19 +29,26 @@ ActiveRecord::Schema.define(:version => 20131113192812) do
 
   add_index "comments", ["commentable_id", "commentable_type"], :name => "index_comments_on_commentable_id_and_commentable_type"
 
+  create_table "craps", :force => true do |t|
+    t.float    "latitude"
+    t.float    "longitude"
+    t.float    "name"
+    t.float    "address"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "friendships", :force => true do |t|
     t.string   "actor_id"
     t.string   "friendActor_id"
     t.string   "status"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at"
   end
 
   create_table "locations", :force => true do |t|
     t.string   "address"
     t.float    "longitude"
     t.float    "latitude"
-    t.boolean  "gmaps"
     t.string   "postcode"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
@@ -51,13 +63,29 @@ ActiveRecord::Schema.define(:version => 20131113192812) do
     t.string   "street_address"
   end
 
+  create_table "maptest3s", :force => true do |t|
+    t.float    "latitude"
+    t.float    "longitude"
+    t.string   "address"
+    t.string   "text"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "messages", :force => true do |t|
     t.string   "sender_id"
     t.text     "body"
     t.datetime "read_at"
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
     t.string   "recepient_id"
+    t.integer  "chat_id"
+    t.string   "parent_id"
+    t.datetime "sender_deleted_at"
+    t.datetime "sender_read_at"
+    t.datetime "recipient_deleted_at"
+    t.datetime "recipient_read_at"
+    t.string   "container",            :default => "draft"
   end
 
   create_table "places", :force => true do |t|

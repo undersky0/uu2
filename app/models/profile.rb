@@ -3,7 +3,6 @@ class Profile < ActiveRecord::Base
   
   
   belongs_to :user,
-  :autosave => true,
   :foreign_key => 'actor_id',
   :primary_key => 'profile_id'
 

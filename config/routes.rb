@@ -10,7 +10,7 @@ Uu2::Application.routes.draw do
   resources :scribbles do
     resources :comments
   end
-
+resource :user
   get "navigation/home"
   
   authenticated :user do
@@ -39,9 +39,21 @@ end
     end
   end
   
-  resources :users do |user|
-    resources :messages
+resources :users do |user|
+    resources :messages do
+      collection do
+        get 'new_message'
+        get 'inbox'
+        get 'sent'
+        get 'trashed'
+        get 'draft'
+        get 'archieved'
+      end
+    end
   end
+  
+   match "/showusers/:actor_id" => "users#showconnections", :as=>"showusers"
+   
   #map.resources :scribbles, :has_many => :comments
 
   # The priority is based upon order of creation:
