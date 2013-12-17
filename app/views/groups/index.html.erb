@@ -1,0 +1,36 @@
+<% title "Groups" %>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Location</th>
+    <th>Type</th>
+    <th>Privacy</th>
+    <th>About</th>
+    <th>Membership</th>
+    <th>Event</th>
+    <th>Headline</th>
+  </tr>
+  <% for group in @groups %>
+    <tr>
+      <td><%= group.name %></td>
+      <td><%= group.location_id %></td>
+      <td><%= group.group_type %></td>
+      <td><%= group.privacy %></td>
+      <td><%= group.about %></td>
+      <td><%= group.membership_id %></td>
+      <td><%= group.event_id %></td>
+      <td><%= group.headline %></td>
+      <% if current_user.joined?(group)%>
+      <td><%= button_to "Leave Group",{:controller => :memberships, :action => 'destroy', :id => group.id }, :method => :delete%></td>
+      <% else %>
+      <td><%= button_to "Join Group", memberships_path(:group_id => group.id), :method => :create%></td>
+      <% end %>
+      <td><%= link_to "Show", group %></td>
+      <td><%= link_to "Edit", edit_group_path(group) %></td>
+      <td><%= link_to "Destroy", group, :confirm => 'Are you sure?', :method => :delete %></td>
+    </tr>
+  <% end %>
+</table>
+
+<p><%= link_to "New Group", new_group_path %></p>

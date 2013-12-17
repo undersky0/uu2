@@ -1,0 +1,72 @@
+<% title "Group" %>
+
+<p>
+  <strong>Name:</strong>
+  <%= @group.name %>
+</p>
+<p>
+  <strong>Location:</strong>
+  <%= @group.location_id %>
+</p>
+<p>
+  <strong>Type:</strong>
+  <%= @group.group_type %>
+</p>
+<p>
+  <strong>Privacy:</strong>
+  <%= @group.privacy %>
+</p>
+<p>
+  <strong>About:</strong>
+  <%= @group.about %>
+</p>
+<p>
+  <strong>Membership:</strong>
+  <%= @group.membership_id %>
+</p>
+<p>
+  <strong>Event:</strong>
+  <%= @group.event_id %>
+</p>
+<p>
+  <strong>Headline:</strong>
+  <%= @group.headline %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_group_path(@group) %> |
+  <%= link_to "Destroy", @group, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", groups_path %>
+</p>
+
+
+<% @scribble = Scribble.new %>
+
+<%=render :partial => 'newgroupscribble.html.erb', :locals => {:scribble => @scribble, :group => @group}%>
+
+<% if @groupscribbles.empty? %>
+<h3> no scribbles yet </h3>
+<% else %>
+  <% @groupscribbles.each do |scribble| %>
+    <div class="scribblebody"> 
+          <div class="votebox">
+
+                       <a href="" id="<%= scribble.id %>" name="promote" class="votes">
+                       <div class='up'></div><%= scribble.promotes %> promotes</a>
+         
+                       <a href=""  id="<%= scribble.id %>"  name="demote" class="votes">
+                       <div class='down'></div><%= scribble.demotes %> demotes</a>
+
+          </div>
+          <div class="scribbleimg"><img src="assets/default_avatar.png" style='width:50px;height:50px'/></div>
+          <div class="scribbletext">
+          <blockquote>
+          <p><%= scribble.post %></p>
+          <small><%= scribble.posted_by %></small>
+          </blockquote>
+          <div class="scribbletime">created at  <%= scribble.created_at %></div></div>
+          <%= render :partial=>"comments/postedcomments",:locals=>{:scribble=>scribble} %>
+          <%= render :partial=>"comments/new",:locals=>{:scribble=>scribble} %> 
+     </div>
+  <% end %>
+<% end %>

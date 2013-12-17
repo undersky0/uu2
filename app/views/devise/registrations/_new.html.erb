@@ -16,6 +16,15 @@
   <p><%= profile_form.text_field :lastname %></p>
   <% end %>
   
+   <%= f.fields_for :location do |location_form| %>
+  
+  <h2><%= location_form.label :postal_code %></h2>
+  <p><%= location_form.text_field :postal_code%></p>
+  
+  <h2><%= location_form.label :city %></h2>
+  <p><%= location_form.text_field :city %></p>
+  <% end %>
+  
   <div><%= f.label :email %><br />
   <%= f.email_field :email, :autofocus => true %></div>
 

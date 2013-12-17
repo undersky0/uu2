@@ -31,10 +31,12 @@ class ScribblesController < ApplicationController
   def edit
     @scribble = Scribble.find(params[:id])
   end
-def new
-  @user = current_user
-  @scribble = @user.scribble.new
-end
+  
+  def new
+    @user = current_user
+    @scribble = @user.scribble.new
+  end
+
   # POST /scribbles
   # POST /scribbles.json
   def create
@@ -101,4 +103,20 @@ end
       format.json { head :no_content }
     end
   end
+  
+  def newlocalscribble
+    @localfeed = Localfeed.find('1')
+    #@user = current_user
+    @scribble = @localfeed.scribbles.new(params[:scribble])
+    #@scribble.posted_by = @user.full_name 
+     # @scribble.scribbled = @localfeed
+    if @scribble.save
+      
+      redirect_to root_path
+    end
+    
+    #@localscribble.scribbled = @user
+    #@localscribble.scribbled = @localfeed
+  end
+  
 end

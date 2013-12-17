@@ -20,6 +20,7 @@
 <%if user_signed_in?%>
 <%= render :partial => 'layouts/navbar'%>
 <%= render :partial => 'layouts/sidebar' %>
+<%= render 'layouts/messages' %>
 <%else%>
 <%= render :template => 'landing_page/index.html.erb'%>
 <%end%>

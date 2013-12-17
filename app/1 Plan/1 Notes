@@ -1,0 +1,72 @@
+1. ~~~~~Fix scribbles
+\\Every scribble has users current locations
+\\Every scribble belongs to feed 
+
+
+
+2. ~~~~~Feeds
+####
+\\belongs to location
+\\Feed has many scribbles
+
+\\validate uniquess of city name  before creating another feed
+####
+
+
+
+-----Create
+
+
+
+------Show
+\\feed = find_feeds_by_city(current_user.location.city)
+\\scribbles = find_scribbles_by_city(feed_id) 
+
+-----index
+City = current_users.ciity
+Cities = City.nearby(20) 
+
+3. ~~~~~locations
+####
+\\belongs to user
+\\has one feed
+####
+
+####after save
+\\Create a feed for a location(location based on Users city)
+
+\\def feed_build
+\\build feed with the city name!
+\\end
+
+
+4. ~~~~~User
+
+\\user has one location
+has_many :memberships
+has_many :groups, :through => :memberships
+has_many :events, :through => :groups
+has_many :events
+
+-------Create
+\\Add first name, last name, Postcode, email, password.
+\\Create profile, location.
+
+
+
+
+5. ~~~~~group
+
+has_many :users, :through => :memberships
+has_many :memberships
+has_one :location
+has_many :scribbles, :as => scribbled
+
+roles - founder, co-founder, members
+
+
+6. ~~~~~Membership
+group_id, user_id, role
+belongs_to :user
+Belongs_to :group
+

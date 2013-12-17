@@ -2,10 +2,12 @@ class Location < ActiveRecord::Base
   
   
   
-  has_many :users, :through => :places, :source => :locationable, :source_type => "User", :foreign_key => 'actor_id'
-  has_many :places
+  # has_many :users, :through => :places, :source => :locationable, :source_type => "User", :foreign_key => 'actor_id'
+  # has_many :places
+  belongs_to :user
   #has_many :locationables, :through => :places
   
+  has_one :localfeed
   
   attr_accessible :address, :latitude, :longitude, :postcode, :user_id, :actor_id,
     :country,  
@@ -17,12 +19,13 @@ class Location < ActiveRecord::Base
     :sublocality,  
     :street_address
       
-  geocoded_by :address
+  geocoded_by :postal_code
   #before_save :geolocate
+  
   
   after_validation :geocode
   #before_save :geolocate
-  
+  after_save :createfeed
   
   def to_s
     "#{address}" +" GB"
@@ -35,7 +38,7 @@ class Location < ActiveRecord::Base
   protected
   
   
-    geocoded_by :address do |prof,results|
+    geocoded_by :postal_code do |prof,results|
   if result = results.select{|res| res.country_code == "GB" }.first
     unless (result.latitude.nil? || result.longitude.nil?)
       prof.latitude = result.latitude
@@ -44,8 +47,8 @@ class Location < ActiveRecord::Base
       prof.postal_code = result.postal_code
       prof.city = result.city
       #prof.political = result.political
-      prof.locality = result.locality
-      prof.sublocality = result.sublocality
+      #prof.locality = result.locality
+      #prof.sublocality = result.sublocality
       prof.street_address = result.street_address
     end
     result.coordinates
@@ -65,6 +68,9 @@ end
   end
   end
   
+  def createfeed
+    self.create_localfeed({:city => self.city})
+  end
   
   
 end

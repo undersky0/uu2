@@ -1,11 +1,17 @@
 <% if current_user %>
+
+
+
 <% @scribble = Scribble.new %>
+
 <%=render :partial => 'scribbles/new.html.erb'%>
 <div id="scribblesfeed">
 <%= render :partial => 'scribbles/scribbles.html.erb', :locals => { :scribbles_streams => @scribbles_streams } %>
 </div></br>
 
 <% end %>
+
+
 <script>
   $(document).ready(function(){
   var timelyrefreshScribbleFeeds = function(){

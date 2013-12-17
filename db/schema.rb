@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131120190841) do
+ActiveRecord::Schema.define(:version => 20131217002757) do
 
   create_table "chats", :force => true do |t|
     t.datetime "created_at", :null => false
@@ -45,6 +45,28 @@ ActiveRecord::Schema.define(:version => 20131120190841) do
     t.datetime "created_at"
   end
 
+  create_table "groups", :force => true do |t|
+    t.string   "name"
+    t.integer  "location_id"
+    t.string   "group_type"
+    t.string   "privacy"
+    t.string   "about"
+    t.integer  "membership_id"
+    t.integer  "event_id"
+    t.string   "headline"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+    t.string   "location_name"
+  end
+
+  create_table "localfeeds", :force => true do |t|
+    t.string   "city"
+    t.integer  "scribble_id"
+    t.integer  "location_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
   create_table "locations", :force => true do |t|
     t.string   "address"
     t.float    "longitude"
@@ -61,6 +83,13 @@ ActiveRecord::Schema.define(:version => 20131120190841) do
     t.string   "locality"
     t.string   "sublocality"
     t.string   "street_address"
+    t.integer  "localfeed_id"
+    t.integer  "user_id"
+  end
+
+  create_table "mailboxes", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "maptest3s", :force => true do |t|
@@ -72,21 +101,37 @@ ActiveRecord::Schema.define(:version => 20131120190841) do
     t.datetime "updated_at", :null => false
   end
 
+  create_table "memberships", :force => true do |t|
+    t.integer  "group_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "user_id"
+  end
+
+  create_table "message_senders", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "messages", :force => true do |t|
-    t.string   "sender_id"
     t.text     "body"
     t.datetime "read_at"
-    t.datetime "created_at",                                :null => false
-    t.datetime "updated_at",                                :null => false
-    t.string   "recepient_id"
+    t.datetime "created_at",                       :null => false
+    t.datetime "updated_at",                       :null => false
+    t.string   "recipient_ids"
     t.integer  "chat_id"
-    t.string   "parent_id"
-    t.datetime "sender_deleted_at"
+    t.datetime "deleted_at"
     t.datetime "sender_read_at"
-    t.datetime "recipient_deleted_at"
-    t.datetime "recipient_read_at"
-    t.string   "container",            :default => "draft"
+    t.datetime "trashed_at"
+    t.datetime "received_at"
+    t.string   "ancestry"
+    t.integer  "user_id"
+    t.boolean  "editable",       :default => true
+    t.datetime "sent_at"
   end
+
+  add_index "messages", ["ancestry"], :name => "index_messages_on_ancestry"
+  add_index "messages", ["user_id"], :name => "index_messages_on_user_id"
 
   create_table "places", :force => true do |t|
     t.datetime "created_at",        :null => false
@@ -109,15 +154,32 @@ ActiveRecord::Schema.define(:version => 20131120190841) do
     t.string   "actor_id"
   end
 
+  create_table "roles", :force => true do |t|
+    t.string   "name",              :limit => 40
+    t.string   "authorizable_type", :limit => 40
+    t.integer  "authorizable_id"
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+  end
+
+  create_table "roles_users", :id => false, :force => true do |t|
+    t.integer  "users_id"
+    t.integer  "role_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "scribbles", :force => true do |t|
     t.string   "post"
     t.string   "posted_by"
     t.integer  "promotes"
     t.integer  "demotes"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
     t.string   "actor_id"
     t.integer  "user_id"
+    t.integer  "scribbled_id"
+    t.string   "scribbled_type"
   end
 
   create_table "users", :force => true do |t|
@@ -135,6 +197,12 @@ ActiveRecord::Schema.define(:version => 20131120190841) do
     t.datetime "updated_at",                             :null => false
     t.string   "actor_id",                               :null => false
     t.string   "profile_id"
+    t.integer  "location_id"
+    t.integer  "user_id"
+    t.string   "avatar_file_name"
+    t.string   "avatar_content_type"
+    t.integer  "avatar_file_size"
+    t.datetime "avatar_updated_at"
   end
 
   add_index "users", ["actor_id"], :name => "index_users_on_actor_id", :unique => true

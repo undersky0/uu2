@@ -1,14 +1,39 @@
 Uu2::Application.routes.draw do
 
-  resources :locations
+  get "memberships/index"
+
+  resources :memberships, :only => [:create, :destroy]
+  
+  resources :groups do 
+    resource :scribbles
+    member do
+    post 'groupscribble', :action => :newgroupscribble
+  end 
+  end
+  
+  resources :localfeeds do
+    resource :scribbles
+    member do
+      post 'localscribble', :action => :newlocalscribble
+    end
+  end
+
+  resource :location
+  
   devise_for :users, path_names: {sign_in: "login", sign_out: "logout"}
   
   resources :users do
   resource :profile, :controller => "profiles"
+  resource :location
+
   end  
 
   resources :scribbles do
+        member do
+      post 'localscribble', :action => :newlocalscribble
+    end
     resources :comments
+
   end
 resource :user
   get "navigation/home"
@@ -38,21 +63,24 @@ end
       get 'reject',:as=>"reject_fr"
     end
   end
+ 
+ get 'message/compose', to: 'messages#new', as: :compose
+
   
-resources :users do |user|
-    resources :messages do
-      collection do
-        get 'new_message'
-        get 'inbox'
-        get 'sent'
-        get 'trashed'
-        get 'draft'
-        get 'archieved'
-      end
+ resources :messages do
+    collection do
+      get 'index', to: 'messages#index', as: :index
+      get 'sent', to: 'messages#sent', as: :sent
+      post 'reply', to: 'messages#reply', as: :reply
+      post 'trash', to: 'messages#trash', as: :trash
     end
   end
+
+  post 'mailbox/empty_trash', to: 'mailboxes#empty_trash', as: :empty_trash
+  get 'mailbox/:mailbox', to: 'mailboxes#show', as: :mailbox
+  get 'mailbox/:mailbox/:id', to: 'messages#show', as: :mailbox_message
   
-   match "/showusers/:actor_id" => "users#showconnections", :as=>"showusers"
+   match "/showusers/:user_id" => "users#showconnections", :as=>"showusers"
    
   #map.resources :scribbles, :has_many => :comments
 

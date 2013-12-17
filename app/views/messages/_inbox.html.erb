@@ -15,12 +15,12 @@ No messages in your Inbox
                                                         <td><%= check_box_tag "delete[]", message.id %></td>
                                                         <td>
                                                                 <% if message.read? %>
-                                                                  <%= link_to h(message.subject), user_message_path(@user, message) %>
+                                                                  <%= link_to h(message.body), user_message_path(@user, message) %>
                                                                 <% else %>
-                                                                  <%= link_to "#{h(message.subject)} (unread)", user_message_path(@user, message) %>
+                                                                  <%= link_to "#{h(message.body)} (unread)", user_message_path(@user, message) %>
                                                                 <% end %>
                                                         </td>
-                                                        <td><%= "#{message.sender.first_name} #{message.sender.last_name}" %></td>
+                                                        <td><%= "#{message.sender.full_name}" %></td>
                                                 <td><%=h message.created_at.to_s(:long) %></td>
                                                 </tr>
                         <% end %>

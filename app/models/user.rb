@@ -1,5 +1,5 @@
 class User < ActiveRecord::Base
-  
+  acts_as_authorization_subject  :association_name => :roles
   include Scrubber
   
   # Include default devise modules. Others available are:
@@ -9,29 +9,39 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :email, :password, :password_confirmation, :remember_me, :scribbles_attributes, :profile_attributes, :locations_attributes
+  attr_accessible :avatar, :email, :password, :password_confirmation, :remember_me, :scribbles_attributes, :profile_attributes, :location_attributes
   # attr_accessible :title, :body
   
+  
+  has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "48x48>" }, :default_url => "/images/:style/missing.png"
+  
+  
   has_one :profile,
-          :primary_key => 'actor_id',
           dependent: :destroy
-          # :primary_key => "profile_id",
-          # :foreign_key => "profile_id"
           accepts_nested_attributes_for :profile
   
-  has_many :scribbles, :primary_key => 'actor_id', dependent: :destroy
+  has_one :location, :primary_key => 'actor_id',
+  dependent: :destroy
+  accepts_nested_attributes_for :location
+  
+  
+  has_many :scribbles, :as => :scribbled, dependent: :destroy
   accepts_nested_attributes_for :scribbles
   
   has_many :comments, :as => :commentable
   
+  has_many :memberships, dependent: :destroy
+  has_many :groups, :through => :memberships
+  
+  
   
   #user.places , location.places, user.locations
-  has_many :locations, :through => :places, :primary_key => 'actor_id'
-  has_many :places, :as => :locationable, :primary_key => 'actor_id'
-  
+  # has_many :locations, :through => :places, :primary_key => 'user_id'
+  # has_many :places, :as => :locationable, :primary_key => 'user_id'
+#   
   
 
-  accepts_nested_attributes_for :locations
+  # accepts_nested_attributes_for :locations
   
   # @user = User.find(params[:id]) # finds user
   # @commentable = @user # find the right link with commentable
@@ -39,7 +49,7 @@ class User < ActiveRecord::Base
   # @comment = Comment.new 
   
   before_save :create_actor_id  
-  self.primary_key = 'actor_id'
+  #self.primary_key = 'actor_id'
   
   
   has_many :friendship, :primary_key =>'actor_id', :foreign_key => 'actor_id'
@@ -67,19 +77,10 @@ class User < ActiveRecord::Base
            # :source => :friend,
            # :conditions => :location
            
-  has_many :sent_messages,
-           :class_name => 'Message',
-           :primary_key => 'actor_id',
-           :foreign_key => 'recepient_id',
-           :order => "messages.created_at DESC"           
-                   
-  has_many :received_messages,
-           :class_name => 'Message',
-           :primary_key => 'actor_id',
-           :foreign_key => 'recepient_id',
-           :order => "messages.created_at DESC"        
+has_many :messages, class_name: 'Message', foreign_key: 'user_id'    
     
     after_initialize :create_profile
+    after_initialize :create_location
            
   def unread_messages?
     unread_messages_count > 0 ? true : false
@@ -91,8 +92,16 @@ class User < ActiveRecord::Base
       self.actor_id = SecureRandom.base64(8)
     end while self.class.exists?(:actor_id => actor_id)
     end       
-  
+  def prefix
+    try(:full_name) || email
+  end
+def message_title
+    "#{prefix} <#{email}>"
+end
 
+def mailbox
+  mailbox.new(self)
+end
   
   def full_name
     @profile = self.profile
@@ -101,5 +110,13 @@ class User < ActiveRecord::Base
   
   def create_profile
     self.build_profile() if self.profile.nil?
-  end          
+  end      
+  def create_location
+    self.build_location() if self.location.nil?
+  end
+  
+  
+  def joined?(group)
+    self.memberships.find_by_group_id(group)
+  end    
 end
