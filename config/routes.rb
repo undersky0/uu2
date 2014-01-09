@@ -1,10 +1,31 @@
 Uu2::Application.routes.draw do
 
+
+  
+  resources :albums
+
+  resources :pictures
+
+#facebook  
+match 'users/auth/:provider/callback', to: 'sessions#create'
+match 'users/auth/failure', to: redirect('/')
+match 'signout', to: 'sessions#destroy', as: 'signout'
+
+
+  resources :attachables
+
+  resources :galleries
+
+  resources :avatars
+
   get "memberships/index"
 
   resources :memberships, :only => [:create, :destroy]
   
-  resources :groups do 
+  resources :groups do
+    resources :albums do 
+      resources :pictures
+    end
     resource :scribbles
     member do
     post 'groupscribble', :action => :newgroupscribble
@@ -23,8 +44,12 @@ Uu2::Application.routes.draw do
   devise_for :users, path_names: {sign_in: "login", sign_out: "logout"}
   
   resources :users do
+    resource :avatar
   resource :profile, :controller => "profiles"
   resource :location
+  collection do
+    post 'uploadfoto', :action => :uploadfoto
+  end
 
   end  
 
@@ -80,7 +105,7 @@ end
   get 'mailbox/:mailbox', to: 'mailboxes#show', as: :mailbox
   get 'mailbox/:mailbox/:id', to: 'messages#show', as: :mailbox_message
   
-   match "/showusers/:user_id" => "users#showconnections", :as=>"showusers"
+   match "/showusers/:id" => "users#showconnections", :as=>"showusers"
    
   #map.resources :scribbles, :has_many => :comments
 

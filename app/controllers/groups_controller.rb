@@ -7,6 +7,9 @@ class GroupsController < ApplicationController
   def show
     @group = Group.find(params[:id])
     @groupscribbles = Scribble.where(:scribbled_id => @group, :scribbled_type => "Group")
+    @albumable = @group
+    @albums = @albumable.albums
+    @album = Album.new
   end
 
   def new

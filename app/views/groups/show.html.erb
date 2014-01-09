@@ -1,3 +1,4 @@
+<script src="bootstrap.min.js"></script>
 <% title "Group" %>
 
 <p>
@@ -39,34 +40,65 @@
   <%= link_to "View All", groups_path %>
 </p>
 
+<a type="button" class="btn" style="width:100%;" href="#test_modal" data-toggle="modal">Add Image</a>
 
-<% @scribble = Scribble.new %>
+<ul class = "nav nav-pills">
+	<li class= "active">
+		<a class = "tabs" href"#section-1" section= "section-1">
+			<span>feeds</span> <span class="badge badge-inverse"><%= @group.id%></span>
+			</a>
+			</li>
+			        <li>
+                <a class="tabs" href="#section-2" section="section-2">
+                        <span>about</span> <span class="badge badge-inverse"><%= @group.id%></span>
+                </a>
+        </li> 
+        
+        
+        
+        	<li>
+                <a class="tabs" href="#section-3" section="section-3">
+                        <span>Events</span> <span class="badge badge-inverse"><%= @group.id%></span>
+                </a>
+        </li> 
+        <li>
+                <a class="tabs" href="#section-4"section="section-4">
+                        <span>album</span> 
+                </a>
+        </li>
+                <li>
+                <a class="tabs" href="#section-5"section="section-5">
+                        <span>people</span>
+                </a>
+        </li>
+</ul> 
 
-<%=render :partial => 'newgroupscribble.html.erb', :locals => {:scribble => @scribble, :group => @group}%>
+<div class="content" id="section-1" style="display:block;">
+        <%= render :partial => "groups/feeds" %>
+</div>
 
-<% if @groupscribbles.empty? %>
-<h3> no scribbles yet </h3>
-<% else %>
-  <% @groupscribbles.each do |scribble| %>
-    <div class="scribblebody"> 
-          <div class="votebox">
+<div class="content" id="section-2" style="display:none;">
+        <%= render :partial => "groups/about" %>
+</div>
 
-                       <a href="" id="<%= scribble.id %>" name="promote" class="votes">
-                       <div class='up'></div><%= scribble.promotes %> promotes</a>
-         
-                       <a href=""  id="<%= scribble.id %>"  name="demote" class="votes">
-                       <div class='down'></div><%= scribble.demotes %> demotes</a>
+<div class="content" id="section-3" style="display:none;">
+        <%= render :partial => "groups/events" %>
+</div>
 
-          </div>
-          <div class="scribbleimg"><img src="assets/default_avatar.png" style='width:50px;height:50px'/></div>
-          <div class="scribbletext">
-          <blockquote>
-          <p><%= scribble.post %></p>
-          <small><%= scribble.posted_by %></small>
-          </blockquote>
-          <div class="scribbletime">created at  <%= scribble.created_at %></div></div>
-          <%= render :partial=>"comments/postedcomments",:locals=>{:scribble=>scribble} %>
-          <%= render :partial=>"comments/new",:locals=>{:scribble=>scribble} %> 
-     </div>
-  <% end %>
-<% end %>
+<div class="content" id="section-4" style="display:none;">
+        <%= render :partial => "groups/album"%>
+</div>
+<div class="content" id="section-4" style="display:none;">
+        <%= render :partial => "groups/people"%>
+</div>
+
+<script>
+$(".tabs").click(function() {
+  $(this).parent().parent().children().removeClass("active");
+  $(this).parent().addClass("active");
+  $(".content").css("display","none");
+  $('#'+$(this).attr('section')).css("display","block");
+});
+</script>
+
+

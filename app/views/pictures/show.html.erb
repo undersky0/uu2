@@ -1,0 +1,13 @@
+<% title "Picture" %>
+<% @album.pictures.each do |picture| %>
+<p>
+  <strong>Name:</strong>
+  <%= picture.name %>
+  <%= image_tag picture.image_url(:thumb).to_s%>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_picture_path(picture) %> |
+  <%= link_to "Destroy", picture, :confirm => 'Are you sure?', :method => :delete %> |
+</p>
+<%end%>

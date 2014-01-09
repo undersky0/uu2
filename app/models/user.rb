@@ -2,25 +2,29 @@ class User < ActiveRecord::Base
   acts_as_authorization_subject  :association_name => :roles
   include Scrubber
   
+
+  
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+         :recoverable, :rememberable, :trackable, :validatable, :omniauthable
 
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :avatar, :email, :password, :password_confirmation, :remember_me, :scribbles_attributes, :profile_attributes, :location_attributes
+  attr_accessible :photo_attributes, :email, :password, :password_confirmation, :remember_me, :scribbles_attributes, :profile_attributes, :location_attributes
   # attr_accessible :title, :body
   
+  has_one :avatar, :as => :avatarable, :dependent => :destroy
+  accepts_nested_attributes_for :avatar
   
-  has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "48x48>" }, :default_url => "/images/:style/missing.png"
+  
   
   
   has_one :profile,
           dependent: :destroy
           accepts_nested_attributes_for :profile
   
-  has_one :location, :primary_key => 'actor_id',
+  has_one :location,
   dependent: :destroy
   accepts_nested_attributes_for :location
   
@@ -52,22 +56,23 @@ class User < ActiveRecord::Base
   #self.primary_key = 'actor_id'
   
   
-  has_many :friendship, :primary_key =>'actor_id', :foreign_key => 'actor_id'
+  has_many :friendships
   
   has_many :friends,
-           :through => :friendship,
+           :through => :friendships,
+           :source => :friend,
            :conditions => "status = 'accepted'",
            :order => :created_at
   
   
   has_many :requested_friends,
-           :through => :friendship,
+           :through => :friendships,
            :source => :friend,
            :conditions => "status = 'requested'",
            :order => :created_at
            
   has_many :pending_friends,
-           :through => :friendship,
+           :through => :friendships,
            :source => :friend,
            :conditions => "status = 'pending'",
            :order => :created_at
@@ -119,4 +124,17 @@ end
   def joined?(group)
     self.memberships.find_by_group_id(group)
   end    
+  
+  
+  def self.from_omniauth(auth)
+  where(auth.slice(:provider, :uid)).first_or_create.tap do |user|
+    user.provider = auth.provider
+    user.uid = auth.uid
+    user.profile.firstname = auth.info.name
+    user.oauth_token = auth.credentials.token
+    user.oauth_expires_at = Time.at(auth.credentials.expires_at)
+    #user.save!
+  end
+  end
+  
 end

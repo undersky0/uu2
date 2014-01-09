@@ -1,29 +1,29 @@
 class Friendship < ActiveRecord::Base
-  attr_accessible :user, :friend, :status
-  belongs_to :user, :foreign_key =>"actor_id", :primary_key => "actor_id"
-  belongs_to :friend, :class_name => "User", :primary_key => "actor_id", :foreign_key => "friendActor_id"
+  attr_accessible :user, :friend, :status, :user_id, :friend_id
+  belongs_to :user
+  belongs_to :friend, :class_name => "User", :foreign_key => 'friend_id'
   
-  validates_presence_of :friendActor_id, :actor_id
+  validates_presence_of :friend_id, :user_id
   
   def self.are_friends(user, friend)
-    returns false if user == friend
-    return true unless find_by_actor_id_and_friendActor_id_and_status(user, friend, "accepted").nil?
-    return true unless find_by_actor_id_and_friendActor_id_and_status(friend, user, "accepted").nil?
+    return false if user == friend
+    return true unless find_by_user_id_and_friend_id_and_status(user, friend, "accepted").nil?
+    return true unless find_by_user_id_and_friend_id_and_status(friend, user, "accepted").nil?
     false
   end
   
   def self.are_friends_pending(user, friend)
     return false if user == friend
-    return true unless find_by_actor_id_and_friendActor_id_and_status(user, friend, "pending").nil?
-    return true unless find_by_actor_id_and_friendActor_id_and_status(friend, user, "requested").nil?
+    return true unless find_by_user_id_and_friend_id_and_status(user, friend, "pending").nil?
+    return true unless find_by_user_id_and_friend_id_and_status(friend, user, "requested").nil?
     false
   end
   
   def self.request(user, friend)
     return false if are_friends(user, friend)
     return false if user == friend
-    f1 = new(:user => user, :friend => friend, :status => "pending")
-    f2 = new(:user => friend, :friend => user, :status => "requested")
+    f1 = self.new(:user_id => user.id, :friend_id => friend.id, :status => "pending")
+    f2 = self.new(:user_id => friend.id, :friend_id => user.id, :status => "requested")
     transaction do
       f1.save
       f2.save
@@ -31,8 +31,8 @@ class Friendship < ActiveRecord::Base
   end
   
   def self.accepted(user, friend)
-    f1 = find_by_actor_id_and_friendActor_id(user.actor_id, friend.actor_id)
-    f2 = find_by_actor_id_and_friendActor_id(friend.actor_id, user.actor_id)
+    f1 = self.find_by_user_id_and_friend_id(user, friend)
+    f2 = self.find_by_user_id_and_friend_id(friend, user)
     if f1.nil? or f2.nil?
       return false
     else
@@ -46,8 +46,8 @@ class Friendship < ActiveRecord::Base
   end
   
   def self.reject(user,friend)
-    f1 = find_by_actor_id_and_friendActor_id(user.actor_id, friend.actor_id)
-    f2 = find_by_actor_id_and_friendActor_id(friend.actor_id, user.actor_id)
+    f1 = find_by_id_and_friend_id(user.id, friend.id)
+    f2 = find_by_id_and_friend_id(friend.id, user.id)
     if f1.nil? or f2.nil?
       return false
     else

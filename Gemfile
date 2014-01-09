@@ -7,8 +7,14 @@ gem 'simple_form'
 gem "ancestry", "~> 2.0.0"
 gem 'sqlite3'
 gem "gmaps4rails", "~> 2.0.5"
+
+#auth
 gem 'devise'
+gem 'omniauth'
+gem 'omniauth-facebook'
+
 gem 'paperclip'
+gem 'carrierwave'
 #gem "memcached", "~> 1.7.0"
 gem "rmagick", "~> 2.13.2"
 gem "nifty-generators", "~> 0.4.6"
@@ -19,11 +25,13 @@ gem "best_in_place"
 gem "make_resourceful"
 gem "haml-rails"
 gem "acl9"
+gem 'rails-gallery'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
+  gem 'jquery-fileupload-rails'
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # gem 'therubyracer', :platforms => :ruby

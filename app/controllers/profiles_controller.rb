@@ -4,12 +4,12 @@ class ProfilesController < ApplicationController
   # before_filter :load_user
   def index
     @profiles = Profile.all
-    @profile = profile.find_by_user_id(current_user.id)
+    @profile = profile.find_by_id(current_user.id)
   end
 
   def show
     #@profile = Profile.find(params[:id])
-    @user = User.find_by_actor_id(current_user)
+    @user = User.find_by_id(current_user.id)
     #@user = current_user
     @profile = @user.profile
   end
@@ -26,7 +26,7 @@ class ProfilesController < ApplicationController
     #@user.profile.create(profile_params)
 
     #@profile = @user.profile
-    #@user.profile.actor_id = current_user.actor_id
+    #@user.profile.user_id = current_user.user_id
     @user.profile_id = @user.profile.profile_id
     if @user.profile.save
       redirect_to @profile, :notice => "Successfully created profile."

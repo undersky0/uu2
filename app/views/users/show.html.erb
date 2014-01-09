@@ -1,2 +1,7 @@
 <h2> full_name </h2>
 <%= @user.full_name%>
+<% if @user.avatar.photo.exists? %>
+<li> <%= link_to image_tag(@user.avatar.photo.url(:thumb)), users_path %> </li>
+<% else %>
+<h3>No photo</h3>
+<%end%>
