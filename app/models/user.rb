@@ -2,7 +2,13 @@ class User < ActiveRecord::Base
   acts_as_authorization_subject  :association_name => :roles
   include Scrubber
   
-
+has_many :authentications, :dependent => :delete_all
+def apply_omniauth(auth)
+  # In previous omniauth, 'user_info' was used in place of 'raw_info'
+  self.email = auth['extra']['raw_info']['email']
+  # Again, saving token is optional. If you haven't created the column in authentications table, this will fail
+  authentications.build(:provider => auth['provider'], :uid => auth['uid'], :token => auth['credentials']['token'])
+end
   
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -56,23 +62,23 @@ class User < ActiveRecord::Base
   #self.primary_key = 'actor_id'
   
   
-  has_many :friendships
+  has_many :friendship
   
   has_many :friends,
-           :through => :friendships,
+           :through => :friendship,
            :source => :friend,
            :conditions => "status = 'accepted'",
            :order => :created_at
   
   
   has_many :requested_friends,
-           :through => :friendships,
+           :through => :friendship,
            :source => :friend,
            :conditions => "status = 'requested'",
            :order => :created_at
            
   has_many :pending_friends,
-           :through => :friendships,
+           :through => :friendship,
            :source => :friend,
            :conditions => "status = 'pending'",
            :order => :created_at
@@ -130,11 +136,37 @@ end
   where(auth.slice(:provider, :uid)).first_or_create.tap do |user|
     user.provider = auth.provider
     user.uid = auth.uid
-    user.profile.firstname = auth.info.name
+    #user.profile.firstname = auth.info.name
     user.oauth_token = auth.credentials.token
     user.oauth_expires_at = Time.at(auth.credentials.expires_at)
     #user.save!
-  end
+    end
   end
   
+  def self.new_with_session(params, session)
+  if session["devise.user_attributes"]
+    new(session["devise.user_attributes"], without_protection: true) do |user|
+      user.attributes = params
+      user.valid?
+    end
+  else
+    super
+  end    
+
+  end
+  
+  def password_required?
+  super && provider.blank?
+  end
+def update_with_password(params, *options)
+  if encrypted_password.blank?
+    update_attributes(params, *options)
+  else
+    super
+  end
 end
+
+
+  end
+  
+  

@@ -2,16 +2,24 @@ source 'https://rubygems.org'
 
 gem 'rails', '3.2.13'
 gem 'simple_form'
+gem 'thin'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 gem "ancestry", "~> 2.0.0"
 gem 'sqlite3'
+gem 'slim'
 gem "gmaps4rails", "~> 2.0.5"
-
+gem 'oauth2'
 #auth
 gem 'devise'
 gem 'omniauth'
 gem 'omniauth-facebook'
+gem 'oauth2'
+gem 'fql'
+gem 'omniauth-twitter'
+
+
+
 
 gem 'paperclip'
 gem 'carrierwave'

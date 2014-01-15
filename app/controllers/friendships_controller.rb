@@ -10,12 +10,12 @@ class FriendshipsController < ApplicationController
         flash[:notice] = "friend request could not be sent"
       end
     end
-    redirect_to :back
+
   end
   
   def accept
     @user = current_user
-    @friend = User.find(params[:id])
+    @friend = User.find_by_id(params[:id])
     unless @friend.nil?
       if Friendship.accepted(@user, @friend)
         flash[:notice] = "friendship accepted"

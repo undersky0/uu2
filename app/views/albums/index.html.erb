@@ -1,5 +1,35 @@
-<% title "Albums" %>
+<div class="row">
+  <h1>Galleries</h1>
+  <ul class="thumbnails files">
+    <% @albums.each do |album| %>
+        <li class="span3" id="album_<%= album.id %>">
+          <div class="thumbnail">
+            <% if album.cover.blank? or !Picture.find_by_id(album.cover) %>
+              <a href="<%= album_path(:id => album.id) %>">
+                <img src="/assets/NoImageAvailable.jpg" alt="">
+              </a>
+            <% else %>
+              <a href="<%= album_path(:id => album.id) %>">
+                <img src="<%= Picture.find_by_id(album.cover).image.thumb.url %>" alt="">
+              </a>
+            <% end %>
+            <div class="caption">
+              <p style="text-align: center;">
+                <%= album.name.truncate(14) %>
+                <a href="<%= edit_album_path(:id => album.id) %>" class="btn btn-mini">
+                  <i class="icon-edit "></i>
+                  Edit
+                </a>
+                <a class="btn btn-mini btn-delete" confirm="are you sure?" data-method="delete" href="<%= album_path(:id => album.id) %>" data-remote=true>
+                  <i class="icon-trash"></i>
+                  Delete
+                </a>
+              </p>
+            </div>
+          </div>
+        </li>
+    <% end %>
+  </ul>
 
-<%= render 'albums'%>
-
-<p><%= link_to "New Album", [:new, @albumable, :album] %></p>
+  <%= link_to 'New', new_album_path, :class => 'btn btn-mini' %>
+</div>

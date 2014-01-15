@@ -1,24 +1,30 @@
 Uu2::Application.routes.draw do
-
-
-  
-  resources :albums
-
-  resources :pictures
-
-#facebook  
-match 'users/auth/:provider/callback', to: 'sessions#create'
-match 'users/auth/failure', to: redirect('/')
-match 'signout', to: 'sessions#destroy', as: 'signout'
-
-
   resources :attachables
 
   resources :galleries
 
   resources :avatars
+  
+  
+  resources :albums do
+  resources :pictures do
+    collection do
+      post 'make_default'
+    end
+  end
+  end
+  
+  resources :pictures
 
-  get "memberships/index"
+
+#facebook  
+#match '/users/auth/:provider/callback', to: 'authentications#create'
+match '/signin' => 'sessions#new'
+match '/users/auth/:provider/callback', to: 'sessions#create'
+match '/auth/failure', to: redirect('/')
+match 'signout', to: 'sessions#destroy', as: 'signout'
+
+
 
   resources :memberships, :only => [:create, :destroy]
   
@@ -41,12 +47,15 @@ match 'signout', to: 'sessions#destroy', as: 'signout'
 
   resource :location
   
-  devise_for :users, path_names: {sign_in: "login", sign_out: "logout"}
+  devise_for :users, path_names: {sign_in: "login", sign_out: "logout"}, controllers: {omniauth_callbacks: "omniauth_callbacks"}
   
   resources :users do
     resource :avatar
-  resource :profile, :controller => "profiles"
+    
+  resource :profile 
+  
   resource :location
+  
   collection do
     post 'uploadfoto', :action => :uploadfoto
   end

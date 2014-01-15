@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140109172858) do
+ActiveRecord::Schema.define(:version => 20140115151945) do
 
   create_table "albums", :force => true do |t|
     t.string   "name"
@@ -32,6 +32,15 @@ ActiveRecord::Schema.define(:version => 20140109172858) do
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
     t.integer  "gallery_id"
+  end
+
+  create_table "authentications", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "provider"
+    t.string   "uid"
+    t.string   "token"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "avatars", :force => true do |t|
@@ -129,6 +138,19 @@ ActiveRecord::Schema.define(:version => 20140109172858) do
   create_table "mailboxes", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "mappedfriends", :force => true do |t|
+    t.string   "uid"
+    t.string   "name"
+    t.string   "pic"
+    t.string   "address"
+    t.float    "latitude"
+    t.float    "longitude"
+    t.boolean  "gmaps"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+    t.string   "profile_url"
   end
 
   create_table "maptest3s", :force => true do |t|

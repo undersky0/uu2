@@ -4,9 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/touchTouch/touchTouch.css" />
-    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script> 
-	<script src="assets/touchTouch/touchTouch.jquery.js"></script>
+
     <title><%= yield(:title) || "undersky" %></title>
    <!-- Javascripts
     ================================================== -->
@@ -24,11 +22,10 @@
 <%= render :partial => 'layouts/navbar'%>
 <%= render :partial => 'layouts/sidebar' %>
 <%= render 'layouts/messages' %>
-<%else%>
-<%=render :partial => '/devise/registrations/new'%>
 <%end%>
 
-
+<%=yield%>
+<%= render partial: "shared/flash_messages", flash: flash %> 
 
   </body>
 </html>

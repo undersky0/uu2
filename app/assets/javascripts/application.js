@@ -10,8 +10,7 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
-//= require jquery-fileupload/basic
-//= require jquery-fileupload/vendor/tmpl
+
 //= require jquery
 //= require jquery_ujs
 //= require jquery.purr
@@ -28,5 +27,7 @@
 //= require jquery/jquery.easing-1.3
 //= require jquery/jquery.elastislide
 //= require jquery/jquery.tmpl.min
+//= require jquery-fileupload/basic
+//= require jquery-fileupload/vendor/tmpl
 //= require_tree .
 //

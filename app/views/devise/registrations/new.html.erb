@@ -1,38 +1,36 @@
 <h2>Sign up</h2>
 
-<%= form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
-  <%= devise_error_messages! %>
+<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name)) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+  	<%= f.fields_for :profile do |profile_form| %>
   
- 
-  <%= f.fields_for :profile do |profile_form| %>
+  <%= profile_form.label :firstname %>
+  <%= profile_form.text_field :firstname%>
   
-  <h2><%= profile_form.label :firstname %></h2>
-  <p><%= profile_form.text_field :firstname%></p>
-  
-  <h2><%= profile_form.label :lastname %></h2>
-  <p><%= profile_form.text_field :lastname %></p>
+  <%= profile_form.label :lastname %>
+  <%= profile_form.text_field :lastname %>
   <% end %>
-  
   <%= f.fields_for :location do |location_form| %>
   
-  <h2><%= location_form.label :postal_code %></h2>
-  <p><%= location_form.text_field :postal_code%></p>
+  <%= location_form.label :postal_code %>
+  <%= location_form.text_field :postal_code%>
   
-  <h2><%= location_form.label :city %></h2>
-  <p><%= location_form.text_field :city %></p>
+  <%= location_form.label :city %>
+  <%= location_form.text_field :city %>
   <% end %>
   
-  <div><%= f.label :email %><br />
-  <%= f.email_field :email, :autofocus => true %></div>
+    <%= f.input :email, :required => true, :autofocus => true %>
+    <% if f.object.password_required? %>
+    <%= f.input :password, :required => true %>
+    <%= f.input :password_confirmation, :required => true %>
+    <%end%>
+  </div>
 
-  <div><%= f.label :password %><br />
-  <%= f.password_field :password %></div>
-
-  <div><%= f.label :password_confirmation %><br />
-  <%= f.password_field :password_confirmation %></div>
-
-  <div><%= f.submit "Sign up" %></div>
-  
+  <div class="form-actions">
+    <%= f.button :submit, "Sign up" %>
+  </div>
 <% end %>
-
+<%= link_to "Sign in with Facebook", "users/auth/facebook", id: "sign_in" %>
 <%= render "devise/shared/links" %>
