@@ -12,7 +12,8 @@ class LocalfeedsController < ApplicationController
   def show
     # @newlocalscribble = Scribble.new
     @localfeeds = Localfeed.all
-     @localfeed = Localfeed.find(params[:id])
+    @localfeed = Localfeed.find(params[:id])
+    @city = request.location.city
     # #@feed = loadscribbles
     # @feed = @localfeed.scribbles(:all, :order => 'scribbles.created_at DESC')
     # #@localfeeds = Localfeed.all
@@ -21,7 +22,7 @@ class LocalfeedsController < ApplicationController
       # format.json { render :json => @feed }
     # end
     if @localfeed.nil?
-      @localfeed = Localfeed.find_by_city(current_user.location.city)
+      @localfeed = Localfeed.find_by_city(current_user.location.city || @city)
     else
     @localscribbles = Scribble.where(:scribbled_id => @localfeed)
     end
