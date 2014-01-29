@@ -63,7 +63,7 @@ class Message < ActiveRecord::Base
     
   end
   
-  def recipeint_list
+  def recipient_list
     recipient_ids.reject(&:blank?).map {|id| user.find id}
   end
   
@@ -110,7 +110,7 @@ class Message < ActiveRecord::Base
   
   %W[sent received trashed deleted read].each do |act|
     define_method "#{act}?" do
-      self.send(:"#{act}_at").prenset?
+      self.send(:"#{act}_at").present?
     end
     end
       

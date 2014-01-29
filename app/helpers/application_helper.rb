@@ -5,7 +5,18 @@ module ApplicationHelper
     def message_person(mailbox_name, message)
     mailbox_name == 'inbox' ? message.sender : message.recipient_list.join(', ')
   end
-  
+   def recipients
+    curr_u = current_user
+    User.all.reject { |u| u.user_id == curr_u.user_id }.compact
+  end
+  def set_flash_message(key, kind, options = {})
+    message = find_message(kind, options)
+    flash[key] = message if message.present?
+  end
+
+  def find_message(kind, options = {})
+    I18n.t("#{controller_name}.#{kind}", options)
+  end
   def resource_class
   devise_mapping.to
 end

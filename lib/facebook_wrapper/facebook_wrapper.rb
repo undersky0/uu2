@@ -4,25 +4,25 @@ module FacebookWrapperModule
     # Example usage: fb_friends = FacebookWrapper.get_fb_friends
     def self.get_fb_friends(oauth_token)
       options = {access_token: oauth_token}
-      friends = Fql.execute("SELECT uid, name, pic_square, current_address, current_location, hometown_location, profile_url FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me())", options)
+      mappedfriends = Fql.execute("SELECT uid, name, pic_square, current_address, current_location, hometown_location, profile_url FROM user WHERE uid IN (SELECT uid2 FROM friend WHERE uid1 = me())", options)
 
-      friends
+      mappedfriends
     end
 
     # Given an array of Facebook friends, returns an array of model instances, the model instance being
     # instantiated by the application as a callback.
     def self.from_fb_friends(fb_friends)
-      friends = []
+      mappedfriends = []
       fb_friends.each do |fb_friend|
         location = get_location_or_hometown_address(fb_friend)
 
         if !location.nil?
-          friend = yield(fb_friend, location)
-          friends << friend
+          mappedfriend = yield(fb_friend, location)
+          mappedfriends << mappedfriend
         end
       end
 
-      friends
+      mappedfriends
     end
 
     private

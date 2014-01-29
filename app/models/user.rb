@@ -2,13 +2,9 @@ class User < ActiveRecord::Base
   acts_as_authorization_subject  :association_name => :roles
   include Scrubber
   
-has_many :authentications, :dependent => :delete_all
-def apply_omniauth(auth)
-  # In previous omniauth, 'user_info' was used in place of 'raw_info'
-  self.email = auth['extra']['raw_info']['email']
-  # Again, saving token is optional. If you haven't created the column in authentications table, this will fail
-  authentications.build(:provider => auth['provider'], :uid => auth['uid'], :token => auth['credentials']['token'])
-end
+has_many :authentications
+
+
   
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
@@ -131,42 +127,40 @@ end
     self.memberships.find_by_group_id(group)
   end    
   
-  
-  def self.from_omniauth(auth)
-  where(auth.slice(:provider, :uid)).first_or_create.tap do |user|
-    user.provider = auth.provider
-    user.uid = auth.uid
-    #user.profile.firstname = auth.info.name
-    user.oauth_token = auth.credentials.token
-    user.oauth_expires_at = Time.at(auth.credentials.expires_at)
-    #user.save!
-    end
+  def oauth_token
+    
   end
   
-  def self.new_with_session(params, session)
-  if session["devise.user_attributes"]
-    new(session["devise.user_attributes"], without_protection: true) do |user|
-      user.attributes = params
-      user.valid?
-    end
-  else
-    super
-  end    
+    def apply_omniauth(omni)
+    authentications.build(:provider => omni['provider'], 
+                          :uid => omni['uid'], 
+                          :token => omni['credentials'].token, 
+                          :token_secret => omni['credentials'].secret)
+  end
 
-  end
-  
   def password_required?
-  super && provider.blank?
+    (authentications.empty? || !password.blank?) && super #&& provider.blank?
   end
   
-def update_with_password(params, *options)
-  if encrypted_password.blank?
-    update_attributes(params, *options)
-  else
-    super
+  def update_with_password(params, *options)
+    if encrypted_password.blank?
+      update_attributes(params, *options)
+    else
+      super
+    end
   end
+
+def facebook
+  @facebook ||= Koala::Facebook::API.new(oauth_token)
+  block_given? ? yield(@facebook) : @facebook
+rescue Koala::Facebook::APIError => e
+  logger.info e.to_s
+  nil # or consider a custom null object
 end
 
+def friends_count
+  facebook { |fb| fb.get_connection("me", "friends").size }
+end
 
   end
   

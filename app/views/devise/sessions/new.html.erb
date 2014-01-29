@@ -11,5 +11,6 @@
     <%= f.button :submit, "Sign in" %>
   </div>
 <% end %>
-
+<li><%= link_to "Twitter1", user_omniauth_authorize_path(:twitter) %></li>
+ <li><%= link_to "Facebook1", user_omniauth_authorize_path(:facebook) %></li>
 <%= render "devise/shared/links" %>

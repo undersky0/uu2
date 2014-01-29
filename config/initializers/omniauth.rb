@@ -10,9 +10,9 @@ OmniAuth.config.logger = Rails.logger
 #   
 # end 
 
-Rails.application.config.middleware.use OmniAuth::Builder do
-  # The following is for facebook
-  provider :facebook, '175988805944789', '37cffa69bccaae14344b61637ea3971f', {:scope => 'email, read_stream, read_friendlists, friends_likes, friends_status, offline_access'}
- 
-  # If you want to also configure for additional login services, they would be configured here.
-end
+# Rails.application.config.middleware.use OmniAuth::Builder do
+  # # The following is for facebook
+  # provider :facebook, '175988805944789', '37cffa69bccaae14344b61637ea3971f', {:scope => 'email, read_stream, read_friendlists, friends_likes, friends_status, offline_access'}
+#  
+  # # If you want to also configure for additional login services, they would be configured here.
+# end

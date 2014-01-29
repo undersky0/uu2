@@ -16,6 +16,7 @@ end
 
 module Uu2
   class Application < Rails::Application
+    config.autoload_paths += %W(#{config.root}/lib/facebook_wrapper)
     config.action_view.javascript_expansions[:defaults] = %w(jquery.min jquery_ujs)
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers

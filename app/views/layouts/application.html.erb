@@ -8,7 +8,7 @@
     <title><%= yield(:title) || "undersky" %></title>
    <!-- Javascripts
     ================================================== -->
-   <%= javascript_include_tag :all %>
+
    <!-- Stylesheets
     ================================================== -->
     <%= stylesheet_link_tag    "application" %>
@@ -26,6 +26,7 @@
 
 <%=yield%>
 <%= render partial: "shared/flash_messages", flash: flash %> 
-
+<%= javascript_include_tag :all %>
+<%= yield :scripts %>
   </body>
 </html>

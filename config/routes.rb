@@ -1,10 +1,16 @@
 Uu2::Application.routes.draw do
+
+
+  get "friendmap/index"
+
   resources :attachables
 
   resources :galleries
 
   resources :avatars
   
+  resources :authentications
+
   
   resources :albums do
   resources :pictures do
@@ -16,13 +22,13 @@ Uu2::Application.routes.draw do
   
   resources :pictures
 
+resources :messages do 
+  get :autocomplete_profile_firstname, :on => :collection
+end
 
 #facebook  
 #match '/users/auth/:provider/callback', to: 'authentications#create'
-match '/signin' => 'sessions#new'
-match '/users/auth/:provider/callback', to: 'sessions#create'
-match '/auth/failure', to: redirect('/')
-match 'signout', to: 'sessions#destroy', as: 'signout'
+
 
 
 
@@ -45,16 +51,15 @@ match 'signout', to: 'sessions#destroy', as: 'signout'
     end
   end
 
-  resource :location
+  resources :locations
   
-  devise_for :users, path_names: {sign_in: "login", sign_out: "logout"}, controllers: {omniauth_callbacks: "omniauth_callbacks"}
+  devise_for :users, path_names: {sign_in: "login", sign_out: "logout"}, controllers: {omniauth_callbacks: "authentications", registrations: "registrations"}
   
   resources :users do
     resource :avatar
     
   resource :profile 
   
-  resource :location
   
   collection do
     post 'uploadfoto', :action => :uploadfoto
@@ -72,15 +77,9 @@ match 'signout', to: 'sessions#destroy', as: 'signout'
 resource :user
   get "navigation/home"
   
-  authenticated :user do
-  root to: "navigation#home", as: :authenticated_root
-  end
   
-  unauthenticated do
-  root to: "landing_page#index"
-end
   
-  root :to => 'navigation#home'
+  root :to => 'localfeeds#index'
   get "navigation/feeds"
   get  "refresh"  => "navigation#refreshscribbles", :as => "refresh"
   get  "promote"  => "navigation#votedup", :as => "promote"

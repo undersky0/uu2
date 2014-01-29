@@ -23,9 +23,14 @@ class Location < ActiveRecord::Base
   #before_save :geolocate
   
   
-  after_validation :geocode
+  after_validation :geocode, :if => :address_changed?
   #before_save :geolocate
   after_save :createfeed
+  
+  def address_changed?
+  attrs = %w(street_address city postal_code)
+  attrs.any?{|a| send "#{a}_changed?"}
+  end
   
   def to_s
     "#{address}" +" GB"
@@ -59,7 +64,7 @@ end
     res = GoogleGeocoder.geocode(to_s)
     
     if res.success
-    self.
+
     self.latitude = res.latitude
     self.lonitude = res.longitude
     else

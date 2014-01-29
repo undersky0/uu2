@@ -10,7 +10,10 @@ class Profile < ActiveRecord::Base
   before_save :create_profile_id
   self.primary_key = 'profile_id'
   
-  
+    def full_name
+    
+    return "#{@self.firstname} #{@self.lastname}"
+    end
   
   private
     def create_profile_id
@@ -21,7 +24,7 @@ class Profile < ActiveRecord::Base
 
 
 
-private
+
 
 
 
