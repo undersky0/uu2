@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140115233046) do
+ActiveRecord::Schema.define(:version => 20140204232616) do
 
   create_table "albums", :force => true do |t|
     t.string   "name"
@@ -178,8 +178,8 @@ ActiveRecord::Schema.define(:version => 20140115233046) do
   create_table "messages", :force => true do |t|
     t.text     "body"
     t.datetime "read_at"
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
+    t.datetime "created_at",                          :null => false
+    t.datetime "updated_at",                          :null => false
     t.string   "recipient_ids"
     t.integer  "chat_id"
     t.datetime "deleted_at"
@@ -188,8 +188,9 @@ ActiveRecord::Schema.define(:version => 20140115233046) do
     t.datetime "received_at"
     t.string   "ancestry"
     t.integer  "user_id"
-    t.boolean  "editable",       :default => true
+    t.boolean  "editable",          :default => true
     t.datetime "sent_at"
+    t.string   "profile_firstname"
   end
 
   add_index "messages", ["ancestry"], :name => "index_messages_on_ancestry"
@@ -224,6 +225,7 @@ ActiveRecord::Schema.define(:version => 20140115233046) do
     t.integer  "user_id"
     t.string   "profile_id", :null => false
     t.string   "actor_id"
+    t.string   "name"
   end
 
   create_table "roles", :force => true do |t|

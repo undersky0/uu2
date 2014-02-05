@@ -38,8 +38,8 @@ class Message < ActiveRecord::Base
 
   
     
-  attr_accessible :body, :read_at, :recepient_id, :sender_id
-  attr_accessor :reply, :parent
+  attr_accessible :body, :read_at, :recepient_id, :sender_id, :profile_name, :profile_firstname, :recipient_ids, :draft, :user, :received_at, :editable
+  attr_accessor :reply, :parent, :profile
   
   
   def active?
@@ -64,7 +64,7 @@ class Message < ActiveRecord::Base
   end
   
   def recipient_list
-    recipient_ids.reject(&:blank?).map {|id| user.find id}
+    recipient_ids.reject(&:blank?).map {|id| User.find id}
   end
   
   def mailbox

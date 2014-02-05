@@ -5,15 +5,12 @@ class Profile < ActiveRecord::Base
   belongs_to :user
 
   
-  attr_accessible :firstname, :lastname, :age, :website, :phoneNo, :profile_id, :actor_id
+  attr_accessible :firstname, :lastname, :age, :website, :phoneNo, :profile_id, :actor_id, :name
   
   before_save :create_profile_id
   self.primary_key = 'profile_id'
   
-    def full_name
-    
-    return "#{@self.firstname} #{@self.lastname}"
-    end
+
   
   private
     def create_profile_id
