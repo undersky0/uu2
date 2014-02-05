@@ -1,5 +1,5 @@
 class LandingPageController < ApplicationController
   def index
-    @locatiom = Location.new
+    @location = Location.new
   end
 end

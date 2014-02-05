@@ -1,0 +1,19 @@
+<%= render "shared/messages_menu" %>
+<% if @sent_messages.blank? %>
+<label>Sent Items is empty</label>
+<% else %>
+	<table class="table table-hover table-bordered">
+		<thead>
+			<th>To</th>
+			<th>On</th>
+		</thead>
+		<tbody>
+		<% @sent_messages.each do |message| %>
+			<tr>
+				<td><%=h message.recipient_list.map{|user| user.message_title}.join(",") %></td>
+				<td><%=h message.sent_at %></td>
+			</tr>
+		<% end %>
+		</tbody>
+	</table>
+<% end %>

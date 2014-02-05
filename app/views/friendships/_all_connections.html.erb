@@ -1,0 +1,19 @@
+<h2>Network Users</h2>
+<div>
+	<ul>
+		<% @all_connections.each do |f|%>
+		
+		<li>
+			
+			<%= link_to "#{f.full_name}", user_path(f.id)%>
+			<% if Friendship.are_friends(current_user.id,f.id)%>
+			<label class="label">is a friend</label>
+			<%else%>
+			<%= link_to "Add Friend", addfriend_friendships_path(:id => f.id)%>
+			<%end%>
+
+		</li>
+		<%end%>
+	</ul>
+	
+</div>

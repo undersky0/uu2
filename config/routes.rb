@@ -1,27 +1,85 @@
 Uu2::Application.routes.draw do
 
+
+  get "friendmap/index"
+
+  resources :attachables
+
+  resources :galleries
+
+  resources :avatars
+  
+  resources :authentications
+
+  
+  resources :albums do
+  resources :pictures do
+    collection do
+      post 'make_default'
+    end
+  end
+  end
+  
+  resources :pictures
+
+resources :messages do 
+  get :autocomplete_profile_firstname, :on => :collection
+end
+
+#facebook  
+#match '/users/auth/:provider/callback', to: 'authentications#create'
+
+
+
+
+  resources :memberships, :only => [:create, :destroy]
+  
+  resources :groups do
+    resources :albums do 
+      resources :pictures
+    end
+    resource :scribbles
+    member do
+    post 'groupscribble', :action => :newgroupscribble
+  end 
+  end
+  
+  resources :localfeeds do
+    resource :scribbles
+    member do
+      post 'localscribble', :action => :newlocalscribble
+    end
+  end
+
   resources :locations
-  devise_for :users, path_names: {sign_in: "login", sign_out: "logout"}
+  
+  devise_for :users, path_names: {sign_in: "login", sign_out: "logout"}, controllers: {omniauth_callbacks: "authentications", registrations: "registrations"}
   
   resources :users do
-  resource :profile, :controller => "profiles"
+    resource :avatar
+    
+  resource :profile 
+  
+  
+  collection do
+    post 'uploadfoto', :action => :uploadfoto
+  end
+
   end  
 
   resources :scribbles do
+        member do
+      post 'localscribble', :action => :newlocalscribble
+    end
     resources :comments
-  end
 
+  end
+resource :user
   get "navigation/home"
   
-  authenticated :user do
-  root to: "navigation#home", as: :authenticated_root
-  end
   
-  unauthenticated do
-  root to: "landing_page#index"
-end
   
-  root :to => 'navigation#home'
+  root :to => 'localfeeds#index'
   get "navigation/feeds"
   get  "refresh"  => "navigation#refreshscribbles", :as => "refresh"
   get  "promote"  => "navigation#votedup", :as => "promote"
@@ -38,10 +96,25 @@ end
       get 'reject',:as=>"reject_fr"
     end
   end
+ 
+ get 'message/compose', to: 'messages#new', as: :compose
+
   
-  resources :users do |user|
-    resources :messages
+ resources :messages do
+    collection do
+      get 'index', to: 'messages#index', as: :index
+      get 'sent', to: 'messages#sent', as: :sent
+      post 'reply', to: 'messages#reply', as: :reply
+      post 'trash', to: 'messages#trash', as: :trash
+    end
   end
+
+  post 'mailbox/empty_trash', to: 'mailboxes#empty_trash', as: :empty_trash
+  get 'mailbox/:mailbox', to: 'mailboxes#show', as: :mailbox
+  get 'mailbox/:mailbox/:id', to: 'messages#show', as: :mailbox_message
+  
+   match "/showusers/:id" => "users#showconnections", :as=>"showusers"
+   
   #map.resources :scribbles, :has_many => :comments
 
   # The priority is based upon order of creation:

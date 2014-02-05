@@ -1,13 +1,15 @@
 class Location < ActiveRecord::Base
-  include ActiveModel::ForbiddenAttributesProtection
   
   
-  has_many :users, :through => :places, :source => :locationable, :source_type => "User", :foreign_key => 'actor_id'
-  has_many :places
+  
+  # has_many :users, :through => :places, :source => :locationable, :source_type => "User", :foreign_key => 'actor_id'
+  # has_many :places
+  belongs_to :user
   #has_many :locationables, :through => :places
   
+  has_one :localfeed
   
-  attr_accessible :address, :gmaps, :latitude, :longitude, :postcode, :user_id, :actor_id,
+  attr_accessible :address, :latitude, :longitude, :postcode, :user_id, :actor_id,
     :country,  
     :country_code,  
     :postal_code,  
@@ -17,11 +19,18 @@ class Location < ActiveRecord::Base
     :sublocality,  
     :street_address
       
-  #geocoded_by :address
-  #before_save :geolocate
-  after_validation :geocode
+  geocoded_by :postal_code
   #before_save :geolocate
   
+  
+  after_validation :geocode, :if => :address_changed?
+  #before_save :geolocate
+  after_save :createfeed
+  
+  def address_changed?
+  attrs = %w(street_address city postal_code)
+  attrs.any?{|a| send "#{a}_changed?"}
+  end
   
   def to_s
     "#{address}" +" GB"
@@ -34,7 +43,7 @@ class Location < ActiveRecord::Base
   protected
   
   
-    geocoded_by :address do |prof,results|
+    geocoded_by :postal_code do |prof,results|
   if result = results.select{|res| res.country_code == "GB" }.first
     unless (result.latitude.nil? || result.longitude.nil?)
       prof.latitude = result.latitude
@@ -42,8 +51,9 @@ class Location < ActiveRecord::Base
       prof.country = result.country
       prof.postal_code = result.postal_code
       prof.city = result.city
-      prof.political = result.political
-      # prof.sublocality = result.sublocality
+      #prof.political = result.political
+      #prof.locality = result.locality
+      #prof.sublocality = result.sublocality
       prof.street_address = result.street_address
     end
     result.coordinates
@@ -54,7 +64,7 @@ end
     res = GoogleGeocoder.geocode(to_s)
     
     if res.success
-    self.
+
     self.latitude = res.latitude
     self.lonitude = res.longitude
     else
@@ -63,6 +73,9 @@ end
   end
   end
   
+  def createfeed
+    self.create_localfeed({:city => self.city})
+  end
   
   
 end

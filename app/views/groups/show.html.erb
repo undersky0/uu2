@@ -1,0 +1,104 @@
+<script src="bootstrap.min.js"></script>
+<% title "Group" %>
+
+<p>
+  <strong>Name:</strong>
+  <%= @group.name %>
+</p>
+<p>
+  <strong>Location:</strong>
+  <%= @group.location_id %>
+</p>
+<p>
+  <strong>Type:</strong>
+  <%= @group.group_type %>
+</p>
+<p>
+  <strong>Privacy:</strong>
+  <%= @group.privacy %>
+</p>
+<p>
+  <strong>About:</strong>
+  <%= @group.about %>
+</p>
+<p>
+  <strong>Membership:</strong>
+  <%= @group.membership_id %>
+</p>
+<p>
+  <strong>Event:</strong>
+  <%= @group.event_id %>
+</p>
+<p>
+  <strong>Headline:</strong>
+  <%= @group.headline %>
+</p>
+
+<p>
+  <%= link_to "Edit", edit_group_path(@group) %> |
+  <%= link_to "Destroy", @group, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View All", groups_path %>
+</p>
+
+<a type="button" class="btn" style="width:100%;" href="#test_modal" data-toggle="modal">Add Image</a>
+
+<ul class = "nav nav-pills">
+	<li class= "active">
+		<a class = "tabs" href"#section-1" section= "section-1">
+			<span>feeds</span> <span class="badge badge-inverse"><%= @group.id%></span>
+			</a>
+			</li>
+			        <li>
+                <a class="tabs" href="#section-2" section="section-2">
+                        <span>about</span> <span class="badge badge-inverse"><%= @group.id%></span>
+                </a>
+        </li> 
+        
+        
+        
+        	<li>
+                <a class="tabs" href="#section-3" section="section-3">
+                        <span>Events</span> <span class="badge badge-inverse"><%= @group.id%></span>
+                </a>
+        </li> 
+        <li>
+                <a class="tabs" href="#section-4"section="section-4">
+                        <span>album</span> 
+                </a>
+        </li>
+                <li>
+                <a class="tabs" href="#section-5"section="section-5">
+                        <span>people</span>
+                </a>
+        </li>
+</ul> 
+
+<div class="content" id="section-1" style="display:block;">
+        <%= render :partial => "groups/feeds" %>
+</div>
+
+<div class="content" id="section-2" style="display:none;">
+        <%= render :partial => "groups/about" %>
+</div>
+
+<div class="content" id="section-3" style="display:none;">
+        <%= render :partial => "groups/events" %>
+</div>
+
+<div class="content" id="section-4" style="display:none;">
+        <%= render :partial => "groups/album"%>
+</div>
+<div class="content" id="section-4" style="display:none;">
+        <%= render :partial => "groups/people"%>
+</div>
+
+<script>
+$(".tabs").click(function() {
+  $(this).parent().parent().children().removeClass("active");
+  $(this).parent().addClass("active");
+  $(".content").css("display","none");
+  $('#'+$(this).attr('section')).css("display","block");
+});
+</script>
+
+

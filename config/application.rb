@@ -1,6 +1,11 @@
 require File.expand_path('../boot', __FILE__)
 
 require 'rails/all'
+require "active_record/railtie"
+require "action_controller/railtie"
+require "action_mailer/railtie"
+require "active_resource/railtie"
+require "sprockets/railtie"
 
 if defined?(Bundler)
   # If you precompile assets before deploying to production, use this line
@@ -11,6 +16,7 @@ end
 
 module Uu2
   class Application < Rails::Application
+    config.autoload_paths += %W(#{config.root}/lib/facebook_wrapper)
     config.action_view.javascript_expansions[:defaults] = %w(jquery.min jquery_ujs)
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
@@ -59,5 +65,13 @@ module Uu2
 
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
+    
+        config.before_configuration do
+      env_file = File.join(Rails.root, 'config', 'local_env.yml')
+      YAML.load(File.open(env_file)).each do |key, value|
+        ENV[key.to_s] = value
+      end if File.exists?(env_file)
+    end
   end
+
 end

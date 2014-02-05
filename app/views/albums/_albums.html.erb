@@ -1,0 +1,8 @@
+<div id="albums">
+<% @albums.each do |album| %>
+	<div class ="albums">
+		<%= link_to album.name, [@group, :album]%>
+		</div>
+		<% end %>
+		
+</div>
