@@ -953,11 +953,11 @@
   body {
     padding-top: 0;
   }
-  .navbar-fixed-top,
   .navbar-fixed-bottom {
     position: static;
   }
   .navbar-fixed-top {
+    position: relative;
     margin-bottom: 20px;
   }
   .navbar-fixed-bottom {

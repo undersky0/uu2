@@ -1,6 +1,6 @@
 <h2>Friends</h2>
 <tr>
         <% @user.friends.each do |friend| %>
-        <%=link_to "#{friend.full_name}",user_path(friend.actor_id) %> 
+        <%=link_to "#{friend.full_name}",user_path(friend.id) %> 
         <% end %>
 </tr>

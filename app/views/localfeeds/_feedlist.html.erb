@@ -1,0 +1,12 @@
+<% title "feedlist" %>
+
+<table>
+  <tr>
+    <th>City</th>
+  </tr>
+  <% @localfeeds.each do |f| %>
+    <tr>
+      <td><%= link_to f.city, f %></td>
+    </tr>
+  <% end %>
+</table>

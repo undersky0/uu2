@@ -2,17 +2,15 @@ class Profile < ActiveRecord::Base
   include ActiveModel::ForbiddenAttributesProtection
   
   
-  belongs_to :user,
-  :foreign_key => 'actor_id',
-  :primary_key => 'profile_id'
+  belongs_to :user
 
   
-  attr_accessible :firstname, :lastname, :age, :website, :phoneNo, :profile_id, :actor_id
+  attr_accessible :firstname, :lastname, :age, :website, :phoneNo, :profile_id, :actor_id, :name
   
   before_save :create_profile_id
   self.primary_key = 'profile_id'
   
-  
+
   
   private
     def create_profile_id
@@ -23,7 +21,7 @@ class Profile < ActiveRecord::Base
 
 
 
-private
+
 
 
 

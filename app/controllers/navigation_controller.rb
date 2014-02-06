@@ -1,6 +1,6 @@
 class NavigationController < ApplicationController
   before_filter :update_scribblestreams, :only => [:home, :refreshscribbles]
-  
+  before_filter :update_feed
   
   def home
 
@@ -24,13 +24,15 @@ class NavigationController < ApplicationController
   end
  
   def refreshscribbles
-  @scribble = Scribble.find(params[:id])
-  @user = User.find_by_actor_id(scribble.actor_id)
   render :partial => 'scribbles.html.erb', :locals => { :scribbles_streams => @scribbles_streams }
   end
   
+  def refreshfeeds
+    render :partial => 'feed.html.erb', :locals => { :feed_stream => @feed_stream}
+  end
+  
   def refreshcomments
-    render :partial => 'comments.html.erb, :locals => {:comments_streams => @comments_streams}'
+    render :partial => 'comments.html.erb', :locals => {:comments_streams => @comments_streams}
   end
   
   protected
@@ -41,6 +43,11 @@ class NavigationController < ApplicationController
   
   def update_scribblestreams
   @scribbles_streams = Scribble.order('created_at DESC').all
+  end
+  
+  def update_feed
+  @localfeed = Localfeed.find_by_city("Cardiff")
+  @feed_stream = @localfeed.scribbles.order('created_at DESC').all
   end 
  
 

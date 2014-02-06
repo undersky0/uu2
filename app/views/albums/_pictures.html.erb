@@ -1,0 +1,21 @@
+
+
+<div id="paintings">
+  <% for picture in @album.pictures %>
+    <div class="painting">
+      <%= image_tag picture.image_url(:thumb) if picture.image? %>
+      <div class="name"><%= picture.name %></div>
+      <div class="actions">
+        <%= link_to "edit", edit_picture_path(picture) %> |
+        <%= link_to "remove", picture, :confirm => 'Are you sure?', :method => :delete %>
+      </div>
+    </div>
+  <% end %>
+  <div class="clear"></div>
+</div>
+
+<p>
+  <%= link_to "Add a Painting", new_picture_path(:album_id => @album) %> |
+  <%= link_to "Remove Gallery", @album, :confirm => 'Are you sure?', :method => :delete %> |
+  <%= link_to "View Galleries", album_path %>
+</p>

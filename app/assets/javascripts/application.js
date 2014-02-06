@@ -10,11 +10,25 @@
 // WARNING: THE FIRST BLANK LINE MARKS THE END OF WHAT'S TO BE PROCESSED, ANY BLANK LINE SHOULD
 // GO AFTER THE REQUIRES BELOW.
 //
+
 //= require jquery
 //= require jquery_ujs
+//= require jquery.ui.all
+//= require autocomplete-rails
 //= require jquery.purr
 //= require best_in_place
-//= require twitter/bootstrap
+//= require bootstrap
+//= require turbolinks
+//= require gallery/responsive
+//= require gallery/slideshow
+//= require gallery/galleria
+//= require gallery/galleria/classic
+//= require gallery/touch_touch
+//= require jquery/jquery.easing-1.3
+//= require jquery/jquery.elastislide
+//= require jquery/jquery.tmpl.min
+//= require jquery-fileupload/basic
+//= require jquery-fileupload/vendor/tmpl
 //= require underscore
 //= require gmaps/google
 //= require_tree .

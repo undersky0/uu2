@@ -1,0 +1,15 @@
+%section#discuss(class = "#{mailbox_name}")
+  %h2= mailbox_name.humanize
+
+  .compose.message
+    = simple_form_for @message do |f|
+      - if @message.errors.any?
+        %p.errors This message has #{pluralize(@message.errors.count, 'error')}
+
+      = f.input :profile_firstname, :url => autocomplete_profile_firstname_messages_path,:'data-delimiter' => ',', :multiple => true, :as => :autocomplete, :update_elements => {:recipients_ids => '#user_id'}
+      = f.input_field :recipient_ids, as: :hidden, value: '#user_id'
+      = f.input :body, required: false, label: 'Your message'
+      = f.input :draft, as: :boolean
+      = f.submit 'Send message'
+
+

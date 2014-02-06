@@ -1,5 +1,5 @@
 class LocationsController < ApplicationController
-  layout false
+ # layout false
   # GET /locations
   # GET /locations.json
   def index
@@ -28,6 +28,8 @@ class LocationsController < ApplicationController
   # GET /locations/new
   # GET /locations/new.json
   def new
+    @user = current_user
+    
     @location = Location.new
   end
 
@@ -39,13 +41,22 @@ class LocationsController < ApplicationController
   # POST /locations
   # POST /locations.json
   def create
-    @location = Location.new(location_params)
+    @user = current_user
+    #@profile = Profile.new(profile_params)
+    @user.location.new(location_params)
+    #@user.profile.create(profile_params)
+
+    #@profile = @user.profile
+    #@user.profile.actor_id = current_user.actor_id
+
+    
+    
     #@user = current_user
     #@location.places = @user
     #@user.locations << @location
        #@user.save 
     respond_to do |format|
-      if @location.save
+    if @user.location.save
         # @location.places = @place
         # @location.user = @user
         # @location.save
