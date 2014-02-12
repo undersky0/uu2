@@ -31,5 +31,6 @@
 //= require jquery-fileupload/vendor/tmpl
 //= require underscore
 //= require gmaps/google
+//= require sync
 //= require_tree .
 //

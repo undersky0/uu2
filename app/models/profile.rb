@@ -10,7 +10,17 @@ class Profile < ActiveRecord::Base
   before_save :create_profile_id
   self.primary_key = 'profile_id'
   
-
+  
+    def full_name
+    @profile = self.profile
+    return "#{@profile.firstname} #{@profile.lastname}"
+    end
+  
+  def load_into_soulmate
+    loader = Soulmate::Loader.new("profile")
+    loader.add("term" => full_name, "id" => id)
+  end
+  
   
   private
     def create_profile_id

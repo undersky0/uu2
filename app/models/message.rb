@@ -1,5 +1,9 @@
 require 'message_sender'
 class Message < ActiveRecord::Base
+  after_save :add_to_soulmate
+  before_destroy :remove_from_soulmate
+  
+  
   has_ancestry
   attr_accessor :draft
   serialize :recipient_ids, Array 

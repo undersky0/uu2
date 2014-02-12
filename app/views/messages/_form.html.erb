@@ -1,0 +1,16 @@
+<%= render "shared/messages_menu" %>
+<% if @message.errors.present? %>
+  <label><%= @message.errors.full_messages %></label>
+<% end %>
+<%= form_for @message do |f| %>
+  <fieldset>
+  <%= f.label "send to"%>
+  <%= f.autocomplete_field :recipient_ids, autocomplete_profile_firstname_messages_path, :id=>"#id", 'data-delimiter' => ',', :multiple => true, :update_elements => {:id => '#input#profile_id', :name => 'input#profile_id'} %>
+
+  <%= f.label "message"%>
+  <%= f.text_area :body,:required=> false, :placeholder=> 'Hi, how are you? ...',:input_html => {:rows=>5,:style=>'width:100%'} %>
+  <%= f.label "draft ?"%>
+  <%= f.check_box :draft, :as=>:boolean , :label=>'Save as Draft?' %>
+  <%= f.submit %>
+  </fieldset>
+<% end %>

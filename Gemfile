@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.13'
 gem "coffee-script", "~> 2.2.0"
 gem 'simple_form'
-gem 'thin'
+
 gem 'turbolinks'
 gem 'jquery-ui-rails'
 # Bundle edge Rails instead:
@@ -25,6 +25,14 @@ gem 'fb_graph'
 gem 'koala'
 gem 'rails3-jquery-autocomplete'
 
+#soulmate
+gem 'rack-contrib'
+gem 'soulmate', :require => 'soulmate/server'
+#sync
+gem 'faye'
+gem 'thin'
+gem 'sync'
+#images
 gem 'paperclip'
 gem 'carrierwave'
 #gem "memcached", "~> 1.7.0"

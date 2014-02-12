@@ -2,7 +2,7 @@ class MessagesController < ApplicationController
   #before_action :message, only: [:show, :update, :destroy]
   #before_action :can_view_message, only: [:show, :edit, :destroy]
 
-  autocomplete :profile, :firstname, :extra_data => [:user_id]
+  autocomplete :profile, :firstname, :update_elements => {:id => '#id'}
   
   def index
     mailbox = Mailbox.new(current_user)

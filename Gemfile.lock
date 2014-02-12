@@ -57,6 +57,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.3)
+    cookiejar (0.3.0)
     daemons (1.1.9)
     descendants_tracker (0.0.3)
     devise (3.2.2)
@@ -65,12 +66,31 @@ GEM
       railties (>= 3.2.6, < 5)
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
+    em-http-request (1.1.2)
+      addressable (>= 2.3.4)
+      cookiejar
+      em-socksify (>= 0.3)
+      eventmachine (>= 1.0.3)
+      http_parser.rb (>= 0.6.0)
+    em-socksify (0.3.0)
+      eventmachine (>= 1.0.0.beta.4)
     equalizer (0.0.9)
     erubis (2.7.0)
     eventmachine (1.0.3-x86-mingw32)
     execjs (2.0.2)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
+    faye (1.0.1)
+      cookiejar (>= 0.3.0)
+      em-http-request (>= 0.3.0)
+      eventmachine (>= 0.12.0)
+      faye-websocket (>= 0.7.0)
+      multi_json (>= 1.0.0)
+      rack (>= 1.0.0)
+      websocket-driver (>= 0.3.0)
+    faye-websocket (0.7.2)
+      eventmachine (>= 0.12.0)
+      websocket-driver (>= 0.3.1)
     fb_graph (2.7.9)
       httpclient (>= 2.2.0.2)
       multi_json (>= 1.3)
@@ -157,12 +177,16 @@ GEM
     rack (1.4.5)
     rack-cache (1.2)
       rack (>= 0.4)
+    rack-contrib (1.1.0)
+      rack (>= 0.9.1)
     rack-oauth2 (1.0.5)
       activesupport (>= 2.3)
       attr_required (>= 0.0.5)
       httpclient (>= 2.2.0.2)
       multi_json (>= 1.3.6)
       rack (>= 1.1)
+    rack-protection (1.5.0)
+      rack
     rack-ssl (1.3.3)
       rack
     rack-test (0.6.2)
@@ -190,6 +214,7 @@ GEM
     rake (10.1.1)
     rdoc (3.12.2)
       json (~> 1.4)
+    redis (3.0.4)
     rmagick (2.13.2)
     ruby_parser (3.2.2)
       sexp_processor (~> 4.1)
@@ -204,9 +229,18 @@ GEM
       actionpack (~> 3.0)
       activemodel (~> 3.0)
     simple_oauth (0.2.0)
+    sinatra (1.3.6)
+      rack (~> 1.4)
+      rack-protection (~> 1.3)
+      tilt (~> 1.3, >= 1.3.3)
     slim (2.0.2)
       temple (~> 0.6.6)
       tilt (>= 1.3.3, < 2.1)
+    soulmate (1.0.0)
+      multi_json (>= 1.0)
+      redis (>= 2.0)
+      sinatra (>= 1.0)
+      vegas (>= 0.1.0)
     sprockets (2.2.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -217,6 +251,8 @@ GEM
       actionpack (~> 3.0)
       activemodel (~> 3.0)
       railties (~> 3.0)
+    sync (0.2.6)
+      em-http-request
     temple (0.6.7)
     thin (1.6.1)
       daemons (>= 1.0.9)
@@ -246,8 +282,11 @@ GEM
     uglifier (2.4.0)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    vegas (0.1.11)
+      rack (>= 1.0.0)
     warden (1.2.3)
       rack (>= 1.0)
+    websocket-driver (0.3.2)
 
 PLATFORMS
   x86-mingw32
@@ -260,6 +299,7 @@ DEPENDENCIES
   coffee-rails (~> 3.2.1)
   coffee-script (~> 2.2.0)
   devise
+  faye
   fb_graph
   fql
   geocoder
@@ -278,6 +318,7 @@ DEPENDENCIES
   omniauth-facebook
   omniauth-twitter
   paperclip
+  rack-contrib
   rails (= 3.2.13)
   rails-gallery
   rails3-jquery-autocomplete
@@ -287,8 +328,10 @@ DEPENDENCIES
   scrubber (~> 0.1.0)
   simple_form
   slim
+  soulmate
   sqlite3
   strong_parameters (~> 0.2.1)
+  sync
   thin
   turbolinks
   twitter

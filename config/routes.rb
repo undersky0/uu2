@@ -1,5 +1,6 @@
 Uu2::Application.routes.draw do
 
+mount Soulmate::Server, :at => '/sm'
 
   get "friendmap/index"
 

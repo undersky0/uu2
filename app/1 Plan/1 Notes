@@ -1,6 +1,10 @@
+rackup sync.ru -E production
+run redis server
+
+
 1. Fix locations, Map doesn't appear ;/
 
-2. Gallery problems, probably a problem because of the ruby racer gem
+2. Gallery problems, probably  because of the ruby racer gem
 
 3. new log in sequence emai + password(fb+normal) --> add location to user(display map page with new location pop up) --> open up with 
  - set new root to localfeed
