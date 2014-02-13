@@ -29,8 +29,9 @@ gem 'rails3-jquery-autocomplete'
 gem 'rack-contrib'
 gem 'soulmate', :require => 'soulmate/server'
 #sync
-gem 'faye'
-gem 'thin'
+#gem 'faye'
+#gem 'thin', require: false
+gem 'pusher'
 gem 'sync'
 #images
 gem 'paperclip'
